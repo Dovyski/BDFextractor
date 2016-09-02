@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string.h>
 
+#include "mainwindow.h"
+
 #define VERSION	"1.0.0"
 
 void copyright() {
@@ -24,6 +26,10 @@ int main(int argc, const char *argv[])
 		usage();
 		exit(2);
 	}
+
+	UI_Mainwindow mainwindow;
+
+	mainwindow.open_new_file();
 
 	std::cout << "Hello world!" << std::endl;
 	getchar();
