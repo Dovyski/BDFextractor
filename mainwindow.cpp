@@ -27,9 +27,11 @@
 
 
 #include "mainwindow.h"
+#include "check_edf_file.h"
 
 UI_Mainwindow::UI_Mainwindow()
 {
+	files_open = 0;
 }
 
 UI_Mainwindow::~UI_Mainwindow()
@@ -1142,7 +1144,7 @@ void UI_Mainwindow::open_new_file()
       exit(2);
     }
 
-    strcpy(recent_opendir, path);
+    //strcpy(recent_opendir, path);
 
     if(len)
     {
@@ -1155,18 +1157,15 @@ void UI_Mainwindow::open_new_file()
       }
     }
 
-    recent_opendir[i] = 0;
+    //recent_opendir[i] = 0;
 
-    //EDFfileCheck EDFfilechecker;
+    EDFfileCheck EDFfilechecker;
+    edfhdr = EDFfilechecker.check_edf_file(newfile, str);
 
-    //edfhdr = EDFfilechecker.check_edf_file(newfile, str, live_stream_active);
     if(edfhdr==NULL)
     {
       fclose(newfile);
-
-      strcat(str, "\n File is not a valid EDF or BDF file.");
-
-      printf(str);
+      printf("Input is not a valid EDF or BDF file.");
       exit(2);
     }
 
