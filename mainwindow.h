@@ -138,6 +138,8 @@ public:
 
   //void remove_recent_file_mtg_path(const char *);
 
+  struct signalcompblock * create_signalcomp_copy(struct signalcompblock *);
+
 private:
   char path[MAX_PATH_LENGTH],
        videopath[MAX_PATH_LENGTH],

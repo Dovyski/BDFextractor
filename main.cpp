@@ -3,6 +3,7 @@
 
 #include "mainwindow.h"
 #include "signals_dialog.h"
+#include "viewcurve.h"
 
 #define VERSION	"1.0.0"
 
@@ -34,6 +35,9 @@ int main(int argc, const char *argv[])
 
 	signalsw.show_signals(0);
 	signalsw.DisplayButtonClicked();
+
+	ViewCurve viewcurve(&mainwindow);
+	viewcurve.ECGdetectButton();
 
 	std::cout << "Hello world!" << std::endl;
 	getchar();

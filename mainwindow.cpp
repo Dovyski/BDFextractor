@@ -3184,7 +3184,7 @@ void UI_Mainwindow::edfplus_annotation_remove_duplicates()
   printf(QMessageBox::Information, "Ready", str);
   exit(2);
 }
-
+*/
 
 struct signalcompblock * UI_Mainwindow::create_signalcomp_copy(struct signalcompblock *original_signalcomp)
 {
@@ -3206,10 +3206,10 @@ struct signalcompblock * UI_Mainwindow::create_signalcomp_copy(struct signalcomp
     return(NULL);
   }
 
-  if(original_signalcomp->zratio_filter != NULL)
-  {
-    return(NULL);
-  }
+  //if(original_signalcomp->zratio_filter != NULL)
+  //{
+  //  return(NULL);
+  //}
 
   newsignalcomp = (struct signalcompblock *)calloc(1, sizeof(struct signalcompblock));
   if(newsignalcomp == NULL)
@@ -3221,6 +3221,9 @@ struct signalcompblock * UI_Mainwindow::create_signalcomp_copy(struct signalcomp
 
   memcpy(newsignalcomp, original_signalcomp, sizeof(struct signalcompblock));
 
+// TODO: investigate if all the filters below are important
+
+  /*
   if(newsignalcomp->spike_filter)
   {
     newsignalcomp->spike_filter = create_spike_filter_copy(original_signalcomp->spike_filter);
@@ -3232,6 +3235,7 @@ struct signalcompblock * UI_Mainwindow::create_signalcomp_copy(struct signalcomp
       return(NULL);
     }
   }
+  
 
   for(i=0; i<newsignalcomp->filter_cnt; i++)
   {
@@ -3363,14 +3367,14 @@ struct signalcompblock * UI_Mainwindow::create_signalcomp_copy(struct signalcomp
 //    memcpy(newsignalcomp->fidbuf2[i], original_signalcomp->fidbuf2[i], fid_run_bufsize(original_signalcomp->fid_run[i]));
   }
 
+ */
+
   signalcomp[signalcomps] = newsignalcomp;
 
   signalcomps++;
 
   return(newsignalcomp);
 }
-
-*/
 
 
 
