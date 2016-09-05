@@ -132,7 +132,7 @@ public:
 
   struct video_player_struct *video_player;
 
-  //void setup_viewbuf();
+  void setup_viewbuf();
 
   //int file_is_opened(const char *);
 
@@ -177,8 +177,10 @@ public:
   //void set_display_time(QAction *);
   void set_page_div2();
   void set_page_mult2();
+*/
   void set_display_time_whole_rec();
   //void set_amplitude(QAction *);
+/*
   void set_amplitude_div2();
   void set_amplitude_mult2();
   void fit_signals_to_pane();
@@ -202,9 +204,11 @@ public:
 //  void add_new_math_func();
 //  void remove_all_math_funcs();
   void jump_to_dialog();
+*/
   void jump_to_start();
-  void jump_to_end();
-  void jump_to_time_millisec(long long);
+ // void jump_to_end();
+  //void jump_to_time_millisec(long long);
+/*  
   void show_annotations();
   void show_options_dialog();
   long long get_long_time(char *);

@@ -5,6 +5,7 @@
 #include "signals_dialog.h"
 #include "viewcurve.h"
 #include "ecg_export.h"
+#include "statistics_dialog.h"
 
 #define VERSION	"1.0.0"
 
@@ -42,6 +43,8 @@ int main(int argc, const char *argv[])
 
 	UI_ECGExport ecgexport(&mainwindow);
 	ecgexport.Export_RR_intervals();
+
+	UI_StatisticWindow show_stats_window(mainwindow.signalcomp[1], mainwindow.pagetime);
 
 	std::cout << "Hello world!" << std::endl;
 	getchar();

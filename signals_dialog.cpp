@@ -248,6 +248,12 @@ void UI_Signalswindow::DisplayButtonClicked()
     mainwindow->signalcomps++;
   //}
 
+
+	printf("newsignalcomp->edfhdr->long_data_record_duration = %ld\n", newsignalcomp->edfhdr->long_data_record_duration);
+	printf("newsignalcomp->file_duration = %ld\n", newsignalcomp->file_duration);
+	printf("newsignalcomp->edfhdr->data_record_duration = %ld\n", newsignalcomp->edfhdr->data_record_duration);
+	printf("newsignalcomp->edfhdr->datarecords = %ld\n", newsignalcomp->edfhdr->datarecords);
+
   if((i) && (mainwindow->files_open == 1) && (old_scomps == 0))
   {
     if((mainwindow->signalcomp[0]->file_duration / TIME_DIMENSION) < 5)
@@ -257,9 +263,7 @@ void UI_Signalswindow::DisplayButtonClicked()
   }
 
   //SignalsDialog->close();
-
-// TODO: check if this is important
-  //mainwindow->setup_viewbuf();
+  mainwindow->setup_viewbuf();
 }
 
 /*

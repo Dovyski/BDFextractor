@@ -467,7 +467,7 @@ void UI_Mainwindow::jump_to_dialog()
   UI_JumpMenuDialog jumpmenu(this);
 }
 
-
+*/
 void UI_Mainwindow::jump_to_start()
 {
   int i;
@@ -516,6 +516,7 @@ void UI_Mainwindow::jump_to_start()
   setup_viewbuf();
 }
 
+/*
 
 void UI_Mainwindow::jump_to_time_millisec(long long milliseconds)
 {
@@ -2332,7 +2333,7 @@ void UI_Mainwindow::set_user_defined_display_time()
   UI_Userdefined_timepage_Dialog set_displaytime_dialog(this);
 }
 
-
+*/
 void UI_Mainwindow::set_display_time_whole_rec()
 {
   int i;
@@ -2383,7 +2384,7 @@ void UI_Mainwindow::set_display_time_whole_rec()
   setup_viewbuf();
 }
 
-
+/*
 void UI_Mainwindow::fit_signals_to_pane()
 {
   int i, j,

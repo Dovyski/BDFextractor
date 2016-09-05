@@ -96,7 +96,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -110,7 +110,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,7 +126,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,7 +144,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,21 +157,32 @@
     <ClCompile Include="check_edf_file.cpp" />
     <ClCompile Include="ecg_export.cpp" />
     <ClCompile Include="ecg_filter.cpp" />
+    <ClCompile Include="filter.cpp" />
+    <ClCompile Include="filteredblockread.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="mainwindow_constr.cpp" />
+    <ClCompile Include="ravg_filter.cpp" />
     <ClCompile Include="signals_dialog.cpp" />
+    <ClCompile Include="spike_filter.cpp" />
+    <ClCompile Include="statistics_dialog.cpp" />
     <ClCompile Include="utc_date_time.c" />
     <ClCompile Include="utils.c" />
+    <ClCompile Include="viewbuf.cpp" />
     <ClCompile Include="viewcurve.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="check_edf_file.h" />
     <ClInclude Include="ecg_export.h" />
     <ClInclude Include="ecg_filter.h" />
+    <ClInclude Include="filter.h" />
+    <ClInclude Include="filteredblockread.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="mainwindow.h" />
+    <ClInclude Include="ravg_filter.h" />
     <ClInclude Include="signals_dialog.h" />
+    <ClInclude Include="spike_filter.h" />
+    <ClInclude Include="statistics_dialog.h" />
     <ClInclude Include="utc_date_time.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="viewcurve.h" />

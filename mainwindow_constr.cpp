@@ -823,7 +823,7 @@ UI_Mainwindow::UI_Mainwindow()
   signalcomps = 0;
   sel_viewtime = 0;
   viewtime_sync = VIEWTIME_SYNCED_ABSOLUT;
-  pagetime = 10 * TIME_DIMENSION;
+  pagetime = 30 * TIME_DIMENSION;
   viewtime_string[0] = 0;
   pagetime_string[0] = 0;
   totalviewbufsize = 0;

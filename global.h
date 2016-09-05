@@ -78,11 +78,11 @@
 #define VIDEO_STATUS_PAUSED      17
 #define VIDEO_STATUS_ENDED       18
 
-//#include "filter.h"
-//#include "third_party/fidlib/fidlib.h"
-//#include "ravg_filter.h"
-//#include "spike_filter.h"
-//#include "ecg_filter.h"
+#include "filter.h"
+#include "third_party/fidlib/fidlib.h"
+#include "ravg_filter.h"
+#include "spike_filter.h"
+#include "ecg_filter.h"
 //#include "z_ratio_filter.h"
 
 
@@ -192,7 +192,7 @@ struct signalcompblock{
         int prefilter_reset_sample;
         double filterpreset_a[MAXFILTERS];
         double filterpreset_b[MAXFILTERS];
-//        struct filter_settings *filter[MAXFILTERS];
+        struct filter_settings *filter[MAXFILTERS];
         int max_dig_value;
         int min_dig_value;
         int fidfilter_cnt;
@@ -202,9 +202,9 @@ struct signalcompblock{
         double fidfilter_ripple[MAXFILTERS];
         int fidfilter_order[MAXFILTERS];
         int fidfilter_model[MAXFILTERS];
-//        FidFilter *fidfilter[MAXFILTERS];
-//        FidRun *fid_run[MAXFILTERS];
-//        FidFunc *fidfuncp[MAXFILTERS];
+        FidFilter *fidfilter[MAXFILTERS];
+        FidRun *fid_run[MAXFILTERS];
+        FidFunc *fidfuncp[MAXFILTERS];
         void *fidbuf[MAXFILTERS];
         void *fidbuf2[MAXFILTERS];
         int fidfilter_setup[MAXFILTERS];
@@ -217,11 +217,11 @@ struct signalcompblock{
         int ravg_filter_type[MAXFILTERS];
         int ravg_filter_size[MAXFILTERS];
         int ravg_filter_setup[MAXFILTERS];
-//        struct ravg_filter_settings *ravg_filter[MAXFILTERS];
+        struct ravg_filter_settings *ravg_filter[MAXFILTERS];
         struct ecg_filter_settings *ecg_filter;
         double spike_filter_velocity;
         int spike_filter_holdoff;
-//        struct spike_filter_settings *spike_filter;
+        struct spike_filter_settings *spike_filter;
 //        struct zratio_filter_settings *zratio_filter;
         double zratio_crossoverfreq;
         int spectr_dialog[MAXSPECTRUMDIALOGS];

@@ -3512,6 +3512,8 @@ void ViewCurve::ECGdetectButton()
 	  exit(4);
   }
 
+  printf("Duration: %f \n", newsignalcomp->edfhdr->data_record_duration);
+
   newsignalcomp->ecg_filter =
     create_ecg_filter(newsignalcomp->edfhdr->edfparam[newsignalcomp->edfsignal[0]].smp_per_record /
                       newsignalcomp->edfhdr->data_record_duration,
@@ -3552,9 +3554,7 @@ void ViewCurve::ECGdetectButton()
 
   newsignalcomp->screen_offset = 55.0 / (mainwindow->pixelsizefactor * newsignalcomp->voltpercm);
 
- // mainwindow->setup_viewbuf();
-
-  printf("newsignalcomp->ecg_filter = %x\n", newsignalcomp->ecg_filter);
+  mainwindow->setup_viewbuf();
 }
 
 /*

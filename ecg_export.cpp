@@ -28,6 +28,7 @@
 
 
 #include "ecg_export.h"
+#include "filteredblockread.h"
 
 
 
@@ -157,8 +158,8 @@ void UI_ECGExport::Export_RR_intervals()
   //{
   //  import_as_annots = 1;
   //}
-  /*
-  if(checkBox1->checkState() == Qt::Checked)
+  
+  //if(checkBox1->checkState() == Qt::Checked)
   {
     whole_recording = 1;
 
@@ -168,16 +169,14 @@ void UI_ECGExport::Export_RR_intervals()
     if(buf == NULL)
     {
       printf("Error, can not initialize FilteredBlockReadClass.");
-      messagewindow.exec();
-      return;
+	  exit(8);
     }
 
     samples_cnt = blockrd.samples_in_buf();
     if(samples_cnt < 1)
     {
       printf("Error, samples_cnt is < 1.");
-      messagewindow.exec();
-      return;
+	  exit(8);
     }
 
     filenum = signalcomp->filenum;
@@ -186,9 +185,9 @@ void UI_ECGExport::Export_RR_intervals()
 
     datarecords = signalcomp->edfhdr->datarecords;
 
-    QProgressDialog progress("Processing file...", "Abort", 0, datarecords);
-    progress.setWindowModality(Qt::WindowModal);
-    progress.setMinimumDuration(200);
+    printf("Processing file...%d\n", datarecords);
+    //progress.setWindowModality(Qt::WindowModal);
+   // progress.setMinimumDuration(200);
 
     progress_steps = datarecords / 100;
     if(progress_steps < 1)
@@ -200,28 +199,27 @@ void UI_ECGExport::Export_RR_intervals()
     {
       if(!(i%progress_steps))
       {
-        progress.setValue(i);
+        //progress.setValue(i);
+		  printf("Progress %f \r", i / signalcomp->edfhdr->datarecords);
 
-        qApp->processEvents();
+        //qApp->processEvents();
 
-        if(progress.wasCanceled() == true)
-        {
-          return;
-        }
+        //if(progress.wasCanceled() == true)
+        //{
+        //  return;
+        //}
       }
 
       if(blockrd.process_signalcomp(i) != 0)
       {
-        progress.reset();
-        printf("Error while reading file.");
-        messagewindow.exec();
-        return;
+        //progress.reset();
+        printf("\nError while reading file.\n");
+		exit(8);
       }
     }
 
-    progress.reset();
+    //progress.reset();
   }
-  */
 
   beat_cnt = ecg_filter_get_beat_cnt(signalcomp->ecg_filter);
 
@@ -229,9 +227,11 @@ void UI_ECGExport::Export_RR_intervals()
 
   beat_interval_list = ecg_filter_get_interval_beatlist(signalcomp->ecg_filter);
 
+  printf("beat_cnt = %d\n", beat_cnt);
+
   if(beat_cnt < 4)
   {
-    printf("Error, not enough beats.");
+    printf("Error, not enough beats. how?!");
 	exit(5);
   }
 
@@ -414,9 +414,10 @@ void UI_ECGExport::Export_RR_intervals()
 	printf(str);
   }
 
-  reset_ecg_filter(signalcomp->ecg_filter);
+  // Keep the buffer in case somebody else wants to use it.
+  //reset_ecg_filter(signalcomp->ecg_filter);
 
-  //mainwindow->setup_viewbuf();
+  mainwindow->setup_viewbuf();
 }
 
 
