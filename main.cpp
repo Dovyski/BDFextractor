@@ -41,6 +41,7 @@ int main(int argc, const char *argv[])
 	viewcurve.ECGdetectButton();
 
 	UI_ECGExport ecgexport(&mainwindow);
+	ecgexport.Export_RR_intervals();
 
 	std::cout << "Hello world!" << std::endl;
 	getchar();

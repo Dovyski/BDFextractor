@@ -3472,12 +3472,14 @@ void ViewCurve::ECGdetectButton()
 
   if(!mainwindow->signalcomps)
   {
-    return;
+	  printf("!mainwindow->signalcomps");
+	  exit(4);
   }
 
   if(signal_nr>(mainwindow->signalcomps - 1))
   {
-    return;
+	  printf("signal_nr>(mainwindow->signalcomps - 1)");
+	  exit(4);
   }
 
 
@@ -3486,6 +3488,8 @@ void ViewCurve::ECGdetectButton()
   int signal_id = 0;
   mainwindow->signalcomp[signal_id]->hasoffsettracking = 1;
   signal_nr = signal_id;
+
+  printf("Handling signal %s\n", mainwindow->signalcomp[signal_id]->signallabel);
 
   //if(mainwindow->signalcomp[signal_nr]->zratio_filter != NULL)
   //{
@@ -3504,7 +3508,8 @@ void ViewCurve::ECGdetectButton()
   newsignalcomp = mainwindow->create_signalcomp_copy(mainwindow->signalcomp[signal_nr]);
   if(newsignalcomp == NULL)
   {
-    return;
+	  printf("create_signalcomp_copy() failed");
+	  exit(4);
   }
 
   newsignalcomp->ecg_filter =
@@ -3512,6 +3517,11 @@ void ViewCurve::ECGdetectButton()
                       newsignalcomp->edfhdr->data_record_duration,
                       newsignalcomp->edfhdr->edfparam[newsignalcomp->edfsignal[0]].bitvalue,
                       mainwindow->powerlinefreq);
+
+  if (newsignalcomp->ecg_filter == NULL) {
+	  printf("Failed to create ECG filter\n");
+	  exit(4);
+  }
 
   strcpy(newsignalcomp->signallabel_bu, newsignalcomp->signallabel);
   newsignalcomp->signallabellen_bu = newsignalcomp->signallabellen;
@@ -3543,6 +3553,8 @@ void ViewCurve::ECGdetectButton()
   newsignalcomp->screen_offset = 55.0 / (mainwindow->pixelsizefactor * newsignalcomp->voltpercm);
 
  // mainwindow->setup_viewbuf();
+
+  printf("newsignalcomp->ecg_filter = %x\n", newsignalcomp->ecg_filter);
 }
 
 /*

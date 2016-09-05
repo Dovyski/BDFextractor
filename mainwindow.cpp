@@ -29,12 +29,6 @@
 #include "mainwindow.h"
 #include "check_edf_file.h"
 
-UI_Mainwindow::UI_Mainwindow()
-{
-	files_open = 0;
-	signalcomps = 0;
-}
-
 UI_Mainwindow::~UI_Mainwindow()
 {
 	/*
@@ -3198,7 +3192,7 @@ struct signalcompblock * UI_Mainwindow::create_signalcomp_copy(struct signalcomp
 
   if(signalcomps >= MAXSIGNALS)
   {
-    return(NULL);
+	  return(NULL);
   }
 
   if(original_signalcomp->ecg_filter != NULL)

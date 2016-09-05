@@ -159,6 +159,7 @@
     <ClCompile Include="ecg_filter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="mainwindow_constr.cpp" />
     <ClCompile Include="signals_dialog.cpp" />
     <ClCompile Include="utc_date_time.c" />
     <ClCompile Include="utils.c" />

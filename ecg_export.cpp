@@ -91,7 +91,7 @@ UI_ECGExport::UI_ECGExport(UI_Mainwindow *parent)
 }
 
 
-/*
+
 void UI_ECGExport::Export_RR_intervals()
 {
   int i,
@@ -122,43 +122,42 @@ void UI_ECGExport::Export_RR_intervals()
 
   FILE *outputfile;
 
-  QList<QListWidgetItem *> selectedlist;
+  //QList<QListWidgetItem *> selectedlist;
 
-  struct annotationblock *annotation;
+  //struct annotationblock *annotation;
 
 
-  selectedlist = list->selectedItems();
+  //selectedlist = list->selectedItems();
 
-  if(selectedlist.size() < 1)
-  {
-    QMessageBox messagewindow(QMessageBox::Critical, "Error", "Select a signal first.");
-    messagewindow.exec();
-    return;
-  }
+  //if(selectedlist.size() < 1)
+  //{
+  //  printf("Select a signal first.");
+  //  messagewindow.exec();
+  //  return;
+ // }
 
-  signal_nr = selectedlist.at(0)->data(Qt::UserRole).toInt();
+ // signal_nr = selectedlist.at(0)->data(Qt::UserRole).toInt();
+  signal_nr = 1;
 
   if((signal_nr < 0) || (signal_nr >= mainwindow->signalcomps))
   {
-    QMessageBox messagewindow(QMessageBox::Critical, "Error", "Invalid signalcomp number");
-    messagewindow.exec();
-    return;
+    printf("Invalid signalcomp number\n");
+	exit(5);
   }
 
   signalcomp = mainwindow->signalcomp[signal_nr];
 
   if(signalcomp->ecg_filter == NULL)
   {
-    QMessageBox messagewindow(QMessageBox::Critical, "Error", "Heart Rate detection is not activated for the selected signal.");
-    messagewindow.exec();
-    return;
+    printf("Heart Rate detection is not activated for the selected signal: %s", signalcomp->signallabel);
+	exit(5);
   }
 
-  if(checkBox2->checkState() == Qt::Checked)
-  {
-    import_as_annots = 1;
-  }
-
+  //if(checkBox2->checkState() == Qt::Checked)
+  //{
+  //  import_as_annots = 1;
+  //}
+  /*
   if(checkBox1->checkState() == Qt::Checked)
   {
     whole_recording = 1;
@@ -168,7 +167,7 @@ void UI_ECGExport::Export_RR_intervals()
     buf = blockrd.init_signalcomp(signalcomp, 1, 0);
     if(buf == NULL)
     {
-      QMessageBox messagewindow(QMessageBox::Critical, "Error", "Error, can not initialize FilteredBlockReadClass.");
+      printf("Error, can not initialize FilteredBlockReadClass.");
       messagewindow.exec();
       return;
     }
@@ -176,7 +175,7 @@ void UI_ECGExport::Export_RR_intervals()
     samples_cnt = blockrd.samples_in_buf();
     if(samples_cnt < 1)
     {
-      QMessageBox messagewindow(QMessageBox::Critical, "Error", "Error, samples_cnt is < 1.");
+      printf("Error, samples_cnt is < 1.");
       messagewindow.exec();
       return;
     }
@@ -214,7 +213,7 @@ void UI_ECGExport::Export_RR_intervals()
       if(blockrd.process_signalcomp(i) != 0)
       {
         progress.reset();
-        QMessageBox messagewindow(QMessageBox::Critical, "Error", "Error while reading file.");
+        printf("Error while reading file.");
         messagewindow.exec();
         return;
       }
@@ -222,6 +221,7 @@ void UI_ECGExport::Export_RR_intervals()
 
     progress.reset();
   }
+  */
 
   beat_cnt = ecg_filter_get_beat_cnt(signalcomp->ecg_filter);
 
@@ -231,11 +231,11 @@ void UI_ECGExport::Export_RR_intervals()
 
   if(beat_cnt < 4)
   {
-    QMessageBox messagewindow(QMessageBox::Critical, "Error", "Error, not enough beats.");
-    messagewindow.exec();
-    return;
+    printf("Error, not enough beats.");
+	exit(5);
   }
 
+  /*
   if(import_as_annots)
   {
     for(i=0; i<beat_cnt; i++)
@@ -270,7 +270,7 @@ void UI_ECGExport::Export_RR_intervals()
       annotation = (struct annotationblock *)calloc(1, sizeof(struct annotationblock));
       if(annotation == NULL)
       {
-        QMessageBox messagewindow(QMessageBox::Critical, "Error", "A memory allocation error occurred (annotation).");
+        printf("A memory allocation error occurred (annotation).");
         messagewindow.exec();
         return;
       }
@@ -305,6 +305,7 @@ void UI_ECGExport::Export_RR_intervals()
   }
   else
   {
+  */
     path[0] = 0;
     if(mainwindow->recent_savedir[0]!=0)
     {
@@ -316,10 +317,11 @@ void UI_ECGExport::Export_RR_intervals()
     remove_extension_from_filename(path);
     strcat(path, "_RR_interval.txt");
 
-    strcpy(path, QFileDialog::getSaveFileName(0, "Export RR-interval to ASCII", QString::fromLocal8Bit(path), "Text files (*.txt *.TXT)").toLocal8Bit().data());
+    //strcpy(path, QFileDialog::getSaveFileName(0, "Export RR-interval to ASCII", QString::fromLocal8Bit(path), "Text files (*.txt *.TXT)").toLocal8Bit().data());
 
     if(!strcmp(path, ""))
     {
+		exit(5);
       return;
     }
 
@@ -328,16 +330,16 @@ void UI_ECGExport::Export_RR_intervals()
     outputfile = fopeno(path, "wb");
     if(outputfile==NULL)
     {
-      QMessageBox messagewindow(QMessageBox::Critical, "Error", "Error, can not open outputfile for writing.");
-      messagewindow.exec();
-      return;
+      printf("Error, can not open outputfile for writing.");
+	  exit(5);
     }
 
-    if(radioButton1->isChecked() == true)
-    {
+    //if(radioButton1->isChecked() == true)
+   // {
       type = 1;
-    }
+    //}
 
+	/*
     if(radioButton2->isChecked() == true)
     {
       type = 2;
@@ -347,6 +349,7 @@ void UI_ECGExport::Export_RR_intervals()
     {
       type = 3;
     }
+	*/
 
     if(type == 1)
     {
@@ -356,6 +359,7 @@ void UI_ECGExport::Export_RR_intervals()
       }
     }
 
+	/*
     if((type == 2) || (type == 3))
     {
       for(i=0; i<beat_cnt; i++)
@@ -398,25 +402,23 @@ void UI_ECGExport::Export_RR_intervals()
         }
       }
     }
-
+	*/
     fclose(outputfile);
-  }
+  //}
 
-  myobjectDialog->close();
+  //myobjectDialog->close();
 
   if(!import_as_annots)
   {
     sprintf(str, "Done. The R-onsets and/or RR-intervals are exported to:\n\n%s", path);
-    QMessageBox messagewindow(QMessageBox::Information, "Ready", QString::fromLocal8Bit(str));
-    messagewindow.setIconPixmap(QPixmap(":/images/ok.png"));
-    messagewindow.exec();
+	printf(str);
   }
 
   reset_ecg_filter(signalcomp->ecg_filter);
 
-  mainwindow->setup_viewbuf();
+  //mainwindow->setup_viewbuf();
 }
-*/
+
 
 void UI_ECGExport::load_signalcomps(void)
 {
