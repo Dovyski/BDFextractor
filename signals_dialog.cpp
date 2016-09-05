@@ -623,8 +623,8 @@ void UI_Signalswindow::show_signals(int row)
           date_time.second);
 
 //  label3->setText(str);
-
-  printf("Duration   ");
+  printf("%s", str);
+  printf(" Duration   ");
   file_duration = mainwindow->edfheaderlist[row]->long_data_record_duration * mainwindow->edfheaderlist[row]->datarecords;
   if((file_duration / TIME_DIMENSION) / 10)
   {
@@ -644,6 +644,7 @@ void UI_Signalswindow::show_signals(int row)
             (int)((file_duration % TIME_DIMENSION) / 10LL));
   }
 //  label4->setText(str);
+  printf("%s\n", str);
 
   skip = 0;
 
@@ -668,18 +669,20 @@ void UI_Signalswindow::show_signals(int row)
       }
     }
 
-    snprintf(str, 256, "%-3i ", i + 1);
-    printf(mainwindow->edfheaderlist[row]->edfparam[i].label);
-    printf("   ");
-    convert_to_metric_suffix(str + strlen(str),
-                             mainwindow->edfheaderlist[row]->edfparam[i].smp_per_record / mainwindow->edfheaderlist[row]->data_record_duration,
-                             6);
-    remove_trailing_zeros(str);
-    printf("Hz");
+	snprintf(str, 256, "%-3i ", i + 1);
+	strcat(str, mainwindow->edfheaderlist[row]->edfparam[i].label);
+	strcat(str, "   ");
+	convert_to_metric_suffix(str + strlen(str),
+		mainwindow->edfheaderlist[row]->edfparam[i].smp_per_record / mainwindow->edfheaderlist[row]->data_record_duration,
+		6);
+	remove_trailing_zeros(str);
+	strcat(str, "Hz");
+
+	printf("%s ", str);
     //item = new QListWidgetItem;
     //item->setText(str);
 
-	printf("\nUserRole = %d\n", i);
+	printf(" (UserRole = %d)\n", i);
     //item->setData(Qt::UserRole, QVariant(i));
     //signallist->addItem(item);
   }
