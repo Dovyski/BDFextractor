@@ -32,6 +32,7 @@
 UI_Mainwindow::UI_Mainwindow()
 {
 	files_open = 0;
+	signalcomps = 0;
 }
 
 UI_Mainwindow::~UI_Mainwindow()

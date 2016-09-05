@@ -33,6 +33,7 @@ int main(int argc, const char *argv[])
 	UI_Signalswindow signalsw(&mainwindow);
 
 	signalsw.show_signals(0);
+	signalsw.DisplayButtonClicked();
 
 	std::cout << "Hello world!" << std::endl;
 	getchar();

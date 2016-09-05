@@ -191,18 +191,21 @@ void UI_Signalswindow::DisplayButtonClicked()
 
   //selectedlist = signallist->selectedItems();
 
-  n = 1; // selectedlist.size();
+  //n = 1; // selectedlist.size();
 
-  if(!n)
-  {
+  //if(!n)
+  //{
     //SignalsDialog->close();
-    return;
-  }
+  //  return;
+ // }
+
+  // this is the signal to be added
+  i = 33;
 
   old_scomps = mainwindow->signalcomps;
 
-  for(i=0; i<n; i++)
-  {
+  //for(i=0; i<n; i++)
+  //{
     newsignalcomp = (struct signalcompblock *)calloc(1, sizeof(struct signalcompblock));
     if(newsignalcomp==NULL)
     {
@@ -221,7 +224,7 @@ void UI_Signalswindow::DisplayButtonClicked()
     newsignalcomp->polarity = 1;
 
     //item = selectedlist.at(i);
-	s = 0; // item->data(Qt::UserRole).toInt();
+	s = i; // item->data(Qt::UserRole).toInt();
     newsignalcomp->edfsignal[0] = s;
     newsignalcomp->factor[0] = 1;
     if(newsignalcomp->edfhdr->edfparam[s].bitvalue < 0.0)
@@ -243,7 +246,7 @@ void UI_Signalswindow::DisplayButtonClicked()
 
     mainwindow->signalcomp[mainwindow->signalcomps] = newsignalcomp;
     mainwindow->signalcomps++;
-  }
+  //}
 
   if((i) && (mainwindow->files_open == 1) && (old_scomps == 0))
   {
