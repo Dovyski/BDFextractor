@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "mainwindow.h"
+#include "signals_dialog.h"
 
 #define VERSION	"1.0.0"
 
@@ -29,6 +30,9 @@ int main(int argc, const char *argv[])
 	UI_Mainwindow mainwindow;
 
 	mainwindow.open_new_file();
+	UI_Signalswindow signalsw(&mainwindow);
+
+	signalsw.show_signals(0);
 
 	std::cout << "Hello world!" << std::endl;
 	getchar();

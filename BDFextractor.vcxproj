@@ -157,13 +157,17 @@
     <ClCompile Include="check_edf_file.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="signals_dialog.cpp" />
     <ClCompile Include="utc_date_time.c" />
+    <ClCompile Include="utils.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="check_edf_file.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="mainwindow.h" />
+    <ClInclude Include="signals_dialog.h" />
     <ClInclude Include="utc_date_time.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

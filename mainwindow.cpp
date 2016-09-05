@@ -1096,7 +1096,7 @@ void UI_Mainwindow::open_new_file()
 
   str[0] = 0;
 
-  strcpy(path, "test.bdf");
+  strcpy(path, "Part_1_S_Trial1_emotion.bdf");
 
   struct edfhdrblock *edfhdr=NULL;
   /*
