@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="check_edf_file.cpp" />
+    <ClCompile Include="ecg_export.cpp" />
     <ClCompile Include="ecg_filter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
@@ -165,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="check_edf_file.h" />
+    <ClInclude Include="ecg_export.h" />
     <ClInclude Include="ecg_filter.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="mainwindow.h" />

@@ -39,6 +39,9 @@
     <ClCompile Include="ecg_filter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ecg_export.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mainwindow.h">
@@ -63,6 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ecg_filter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ecg_export.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

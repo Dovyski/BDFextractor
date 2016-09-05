@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include "signals_dialog.h"
 #include "viewcurve.h"
+#include "ecg_export.h"
 
 #define VERSION	"1.0.0"
 
@@ -38,6 +39,8 @@ int main(int argc, const char *argv[])
 
 	ViewCurve viewcurve(&mainwindow);
 	viewcurve.ECGdetectButton();
+
+	UI_ECGExport ecgexport(&mainwindow);
 
 	std::cout << "Hello world!" << std::endl;
 	getchar();
