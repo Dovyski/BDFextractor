@@ -20,9 +20,8 @@ void usage() {
 
 int main(int argc, const char *argv[])
 {
-	copyright();
-
 	if (argc > 1 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)) {
+		copyright();
 		usage();
 		exit(2);
 	}
