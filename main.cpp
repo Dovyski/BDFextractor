@@ -7,22 +7,8 @@
 #include "ecg_export.h"
 #include "statistics_dialog.h"
 #include "jump_dialog.h"
+#include "global.h"
 #include "third_party/getopt/getopt.h"
-
-#define VERSION	"1.0.0"
-
-typedef struct {
-	int subject_id;
-	std::string label;
-	std::string input_file;
-	std::string output_file;
-	int signal;
-	bool export_rr;
-	bool export_rr_times;
-	bool export_hr;
-	bool export_timestamp;
-	bool export_time;
-} config_t;
 
 void copyright() {
 	std::cout << "BDFextractor - Version " << VERSION << " (build: " << __DATE__ << ")" << std::endl;
@@ -44,8 +30,7 @@ void usage() {
 	std::cout << "                       int the output." << std::endl;
 	std::cout << std::endl;
 
-	std::cout << " -o, --output          Path to the output file. If nothing is informed," << std::endl;
-	std::cout << "                       content is printed to stdout." << std::endl;
+	std::cout << " -o, --output          Path to the output file." << std::endl;
 	std::cout << std::endl;
 
 	std::cout << " -s, --signal          Id of the signal to be used in all calculations." << std::endl;
@@ -97,8 +82,8 @@ int main(int argc, const char *argv[])
 	config_t config;
 
 	config.subject_id		= getarg(-1, "-b", "--subject");
-	config.label			= getarg("unknown", "-l", "--label");
-	config.input_file		= getarg("Part_1_S_Trial1_emotion.bdf", "--input");
+	config.label			= getarg("unknown", "--label");
+	config.input_file		= getarg("", "--input");
 	config.output_file		= getarg("", "-o", "--output");
 	config.signal			= getarg(-1, "-s", "--signal");
 	config.export_rr		= getarg(false, "--export-rr");
@@ -126,7 +111,7 @@ int main(int argc, const char *argv[])
 	viewcurve.ECGdetectButton();
 
 	UI_ECGExport ecgexport(&mainwindow);
-	ecgexport.Export_RR_intervals();
+	ecgexport.Export_RR_intervals(&config);
 
 	if (show_hr_stats) {
 		UI_StatisticWindow show_stats_window(mainwindow.signalcomp[1], mainwindow.pagetime);

@@ -30,6 +30,7 @@
 #define EDFBROWSER_GLOBAL_H
 
 #include <stdio.h>
+#include <iostream>
 
 #if defined(__APPLE__) || defined(__MACH__) || defined(__APPLE_CC__)
 
@@ -297,6 +298,21 @@ struct video_player_struct{
         int stop_det_counter;
         int fpos;
        };
+
+#define VERSION	"1.0.0"
+
+typedef struct {
+	int subject_id;
+	std::string label;
+	std::string input_file;
+	std::string output_file;
+	int signal;
+	bool export_rr;
+	bool export_rr_times;
+	bool export_hr;
+	bool export_timestamp;
+	bool export_time;
+} config_t;
 
 #endif
 

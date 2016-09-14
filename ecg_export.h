@@ -42,7 +42,6 @@
 //#include "filteredblockread.h"
 //#include "edf_annot_list.h"
 
-
 class UI_Mainwindow;
 class ViewCurve;
 
@@ -60,7 +59,7 @@ void load_signalcomps(void);
 
 public:
 
-void Export_RR_intervals();
+void Export_RR_intervals(config_t *config);
 
 };
 

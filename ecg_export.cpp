@@ -91,9 +91,7 @@ UI_ECGExport::UI_ECGExport(UI_Mainwindow *parent)
   //myobjectDialog->exec();
 }
 
-
-
-void UI_ECGExport::Export_RR_intervals()
+void UI_ECGExport::Export_RR_intervals(config_t *config)
 {
   int i,
       len,
@@ -306,31 +304,33 @@ void UI_ECGExport::Export_RR_intervals()
   else
   {
   */
-    path[0] = 0;
-    if(mainwindow->recent_savedir[0]!=0)
-    {
-      strcpy(path, mainwindow->recent_savedir);
-      strcat(path, "/");
-    }
-    len = strlen(path);
-    get_filename_from_path(path + len, signalcomp->edfhdr->filename, MAX_PATH_LENGTH - len);
-    remove_extension_from_filename(path);
-    strcat(path, "_RR_interval.txt");
+    strcpy(path, config->output_file.c_str());
+
+    //if(mainwindow->recent_savedir[0]!=0)
+    //{
+    //  strcpy(path, mainwindow->recent_savedir);
+    //  strcat(path, "/");
+    //}
+    //len = strlen(path);
+    //get_filename_from_path(path + len, signalcomp->edfhdr->filename, MAX_PATH_LENGTH - len);
+    //remove_extension_from_filename(path);
+    //strcat(path, "_RR_interval.txt");
 
     //strcpy(path, QFileDialog::getSaveFileName(0, "Export RR-interval to ASCII", QString::fromLocal8Bit(path), "Text files (*.txt *.TXT)").toLocal8Bit().data());
 
     if(!strcmp(path, ""))
     {
-		exit(5);
+	  printf("Invalid output file: \"%s\"\n", path);
+	  exit(5);
       return;
     }
 
-    get_directory_from_path(mainwindow->recent_savedir, path, MAX_PATH_LENGTH);
-
+    //get_directory_from_path(mainwindow->recent_savedir, path, MAX_PATH_LENGTH);
+	
     outputfile = fopeno(path, "wb");
     if(outputfile==NULL)
     {
-      printf("Error, can not open outputfile for writing.");
+      printf("Unable to open output file for writing.");
 	  exit(5);
     }
 
@@ -408,6 +408,7 @@ void UI_ECGExport::Export_RR_intervals()
 		{
 			double time = ((double)l_time) / TIME_DIMENSION;
 			int time_int = (int)time;
+			long long timestamp = mainwindow->edfheaderlist[mainwindow->sel_viewtime]->utc_starttime;
 
 			// If this is the very first HR info and the time is greater
 			// then zero, it means we are missing info from 0 until the time
@@ -415,7 +416,7 @@ void UI_ECGExport::Export_RR_intervals()
 			// the right time
 			if (i == 0 && time_int != 0) {
 				for (int t = 0; t < time_int; t++) {
-					fprintf(outputfile, "%d %d %d %.0f %s\n", 999, -1, t, 0, "MAHNOB-HCI");
+					fprintf(outputfile, "%d %ld %d %.0f %s\n", config->subject_id, timestamp + t, t, 0, config->label.c_str());
 				}
 			}
 
@@ -427,7 +428,7 @@ void UI_ECGExport::Export_RR_intervals()
 				//		subject_id (int) | timestamp (int) | time_seconds (int) | HR (int) | label (string)
 				// E.g.
 				//		416 1457449529 13 79 other
-				fprintf(outputfile, "%d %d %d %d %s\n", 999, -1, (int)time, (int)(60.0 / beat_interval_list[i]), "MAHNOB-HCI");
+				fprintf(outputfile, "%d %ld %d %d %s\n", config->subject_id, timestamp + time_int, time_int, (int)(60.0 / beat_interval_list[i]), config->label.c_str());
 			}
 
 			last_time = (int)time;
@@ -442,8 +443,7 @@ void UI_ECGExport::Export_RR_intervals()
 
   if(!import_as_annots)
   {
-    sprintf(str, "Done! Data has been exported to: \"%s\"", path);
-	printf(str);
+    printf("Done! Data has been extracted to: \"%s\"", path);
   }
 
   // Keep the buffer in case somebody else wants to use it.
