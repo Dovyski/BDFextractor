@@ -254,15 +254,15 @@ UI_StatisticWindow::UI_StatisticWindow(struct signalcompblock *signalcomp, long 
       sdnn_rr = sqrt(sdnn_rr / beat_cnt);
 
       sprintf(stat_str,
-              "Heart Rate\n\n"
-              "Beats:    %3i\n\n"
-              "Mean RR:  %3i ms\n\n"
-              "SDNN RR:  %3i ms\n\n"
-              "RMSSD RR: %3i ms\n\n"
-              "Mean HR:  %3.3f bpm\n\n"
-              "SDNN HR:  %3.3f bpm\n\n"
-              "NN50:     %3i\n\n"
-              "pNN50:    %3i %%\n\n",
+              "Heart Rate Statistics\n\n"
+              "Beats:    %3i\n"
+              "Mean RR:  %3i ms\n"
+              "SDNN RR:  %3i ms\n"
+              "RMSSD RR: %3i ms\n"
+              "Mean HR:  %3.3f bpm\n"
+              "SDNN HR:  %3.3f bpm\n"
+              "NN50:     %3i\n"
+              "pNN50:    %3i %%\n",
               beat_cnt,
               (int)(average_rr * 1000.0),
               (int)(sdnn_rr * 1000.0),
@@ -339,7 +339,7 @@ UI_StatisticWindow::UI_StatisticWindow(struct signalcompblock *signalcomp, long 
   }
 
   //Label1->setText(stat_str);
-  printf("%s\n", stat_str);
+  printf("\n\n%s\n", stat_str);
 
   //StatDialog->exec();
 }
