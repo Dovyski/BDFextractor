@@ -336,7 +336,7 @@ void UI_ECGExport::Export_RR_intervals()
 
     //if(radioButton1->isChecked() == true)
    // {
-      type = 1;
+    //  type = 1;
     //}
 
 	/*
@@ -351,6 +351,8 @@ void UI_ECGExport::Export_RR_intervals()
     }
 	*/
 
+	type = 2;
+
     if(type == 1)
     {
       for(i=0; i<beat_cnt; i++)
@@ -359,7 +361,7 @@ void UI_ECGExport::Export_RR_intervals()
       }
     }
 
-	/*
+	
     if((type == 2) || (type == 3))
     {
       for(i=0; i<beat_cnt; i++)
@@ -402,7 +404,7 @@ void UI_ECGExport::Export_RR_intervals()
         }
       }
     }
-	*/
+	
     fclose(outputfile);
   //}
 
