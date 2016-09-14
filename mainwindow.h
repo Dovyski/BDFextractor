@@ -164,7 +164,7 @@ public:
  */
 
 public:
-  void open_new_file();
+  void open_new_file(const char *path);
   /*
   void show_file_info();
   //void close_file_action_func(QAction *);

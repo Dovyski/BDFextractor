@@ -1082,7 +1082,7 @@ void UI_Mainwindow::show_spectrum_dock()
 
 */
 
-void UI_Mainwindow::open_new_file()
+void UI_Mainwindow::open_new_file(const char *path)
 {
   FILE *newfile;
 
@@ -1091,8 +1091,6 @@ void UI_Mainwindow::open_new_file()
   char str[2048];
 
   str[0] = 0;
-
-  strcpy(path, "Part_1_S_Trial1_emotion.bdf");
 
   struct edfhdrblock *edfhdr=NULL;
   /*
