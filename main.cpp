@@ -33,15 +33,15 @@ void usage() {
 	std::cout << "Usage:\n  BDFextractor.exe [options]" << std::endl << std::endl;
 	std::cout << "Options:" << std::endl;
 
+	std::cout << " --input               Path to the EDF/BDF file to be analyzed." << std::endl;
+	std::cout << std::endl;
+
 	std::cout << " -b, --subject         An integer used as the subject id in" << std::endl;
 	std::cout << "                       the output." << std::endl;
 	std::cout << std::endl;
 
 	std::cout << " -l, --label           A string used as the label for each entry" << std::endl;
 	std::cout << "                       int the output." << std::endl;
-	std::cout << std::endl;
-
-	std::cout << " -i, --input           Path to the EDF/BDF file to be analyzed." << std::endl;
 	std::cout << std::endl;
 
 	std::cout << " -o, --output          Path to the output file. If nothing is informed," << std::endl;
@@ -102,7 +102,7 @@ int main(int argc, const char *argv[])
 
 	config.subject_id		= getarg(-1, "-b", "--subject");
 	config.label			= getarg("unknown", "-l", "--label");
-	config.input_file		= getarg("Part_1_S_Trial1_emotion.bdf", "-i", "--input");
+	config.input_file		= getarg("Part_1_S_Trial1_emotion.bdf", "--input");
 	config.output_file		= getarg("", "-o", "--output");
 	config.signal			= getarg(0, "-s", "--signal");
 	config.export_rr		= getarg(false, "--export-rr");

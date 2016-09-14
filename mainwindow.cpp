@@ -1093,29 +1093,9 @@ void UI_Mainwindow::open_new_file(const char *path)
   str[0] = 0;
 
   struct edfhdrblock *edfhdr=NULL;
-  /*
-  if(annot_editor_active && files_open)
-  {
-    printf("You can not open multiple files when editing annotations. Close the annotation edit window first.");
-    exit(2);
-  }
   
-  if((files_open > 0) && (live_stream_active))
-  {
-    printf("You can not open multiple files while a streaming file is open. Close the streaming file first.");
-    exit(2);
-
-    return;
-  }
-  */
-  if(files_open >= MAXFILES)
-  {
-    printf("There are too many files opened.");
-    exit(2);
-  }
-
   present = 0;
-
+  
   if(!present)
   {
     len = strlen(path);
@@ -1132,13 +1112,12 @@ void UI_Mainwindow::open_new_file(const char *path)
     }
 
     newfile = fopeno(path, "rb");
-    if(newfile==NULL)
+
+	if(newfile==NULL)
     {
-      printf("Can not open file for reading:\n\"%s\" .Check if you have the right permissions.", path);
+      printf("Cannot open file: \"%s\"", path);
       exit(2);
     }
-
-    //strcpy(recent_opendir, path);
 
     if(len)
     {
@@ -1150,8 +1129,6 @@ void UI_Mainwindow::open_new_file(const char *path)
         }
       }
     }
-
-    //recent_opendir[i] = 0;
 
     EDFfileCheck EDFfilechecker;
     edfhdr = EDFfilechecker.check_edf_file(newfile, str);
