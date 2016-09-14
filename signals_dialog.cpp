@@ -37,10 +37,10 @@ UI_Signalswindow::UI_Signalswindow(UI_Mainwindow *w_parent)
 
   mainwindow = (UI_Mainwindow *)w_parent;
 
-  for(i=0; i<mainwindow->files_open; i++)
-  {
-    printf("%s\n", mainwindow->edfheaderlist[i]->filename);
-  }
+  //for(i=0; i<mainwindow->files_open; i++)
+  //{
+  //  printf("%s\n", mainwindow->edfheaderlist[i]->filename);
+  //}
 
   smp_per_record = 0;
 
@@ -559,69 +559,42 @@ void UI_Signalswindow::SubtractButtonClicked()
 void UI_Signalswindow::show_signals(int row)
 {
   int i, j, len, skip, signal_cnt;
-
   char str[256];
-
   long long file_duration;
-
-  //QListWidgetItem *item;
-
   struct date_time_struct date_time;
 
   row = 0; // TODO: check this!
 
-  if(row<0)  return;
-
-  //while(signallist->count())
- // {
-  //  delete signallist->item(0);
-  //}
+  printf("File: %s\n", mainwindow->edfheaderlist[row]->filename);
 
   if((mainwindow->edfheaderlist[row]->edfplus)||(mainwindow->edfheaderlist[row]->bdfplus))
   {
-    printf("Subject    ");
+    printf("Subject:\n");
+	printf(" Name:\n");
     printf(mainwindow->edfheaderlist[row]->plus_patient_name);
-    printf("  ");
+	printf(" Birth date:\n");
     printf(mainwindow->edfheaderlist[row]->plus_birthdate);
-    printf("  ");
+	printf(" Patient code:\n");
     printf(mainwindow->edfheaderlist[row]->plus_patientcode);
 
-    printf("Recording  ");
+    printf("Recording:");
     printf(mainwindow->edfheaderlist[row]->plus_admincode);
   }
   else
   {
-    printf("Subject    ");
-    printf(mainwindow->edfheaderlist[row]->patient);
-    //len = strlen(str);
-   // for(j=0; j<len; j++)
-   // {
-    //  if(str[j]=='_')
-    //  {
-    //    str[j] = ' ';
-    //  }
-    //}
-    
-    printf("Recording  ");
-    printf(mainwindow->edfheaderlist[row]->recording);
-   // len = strlen(str);
-   // for(j=0; j<len; j++)
-   // {
-    //  if(str[j]=='_')
-    //  {
-   //     str[j] = ' ';
-    //  }
-   // }
-
+    printf("Subject: %s\n", mainwindow->edfheaderlist[row]->patient);
+    //printf("Recording: %s\n", mainwindow->edfheaderlist[row]->recording);
   }
 
   utc_to_date_time(mainwindow->edfheaderlist[row]->utc_starttime, &date_time);
-
+  
   date_time.month_str[0] += 32;
   date_time.month_str[1] += 32;
   date_time.month_str[2] += 32;
 
-  snprintf(str, 256, "Start      %i %s %i   %2i:%02i:%02i",
+  printf("Start date (timestamp): %ld\n", mainwindow->edfheaderlist[row]->utc_starttime);
+
+  printf("Start date:  %i %s %i   %2i:%02i:%02i\n",
           date_time.day,
           date_time.month_str,
           date_time.year,
@@ -629,33 +602,33 @@ void UI_Signalswindow::show_signals(int row)
           date_time.minute,
           date_time.second);
 
-//  label3->setText(str);
-  printf("%s", str);
-  printf(" Duration   ");
+
+  printf("Duration: ");
+  
   file_duration = mainwindow->edfheaderlist[row]->long_data_record_duration * mainwindow->edfheaderlist[row]->datarecords;
+  
   if((file_duration / TIME_DIMENSION) / 10)
   {
-    snprintf(str + 11, 240,
-            "%2i:%02i:%02i",
+    printf("%2i:%02i:%02i\n",
             (int)((file_duration / TIME_DIMENSION)/ 3600LL),
             (int)(((file_duration / TIME_DIMENSION) % 3600LL) / 60LL),
             (int)((file_duration / TIME_DIMENSION) % 60LL));
   }
   else
   {
-    snprintf(str + 11, 240,
-            "%2i:%02i:%02i.%06i",
+    printf("%2i:%02i:%02i.%06i\n",
             (int)((file_duration / TIME_DIMENSION)/ 3600LL),
             (int)(((file_duration / TIME_DIMENSION) % 3600LL) / 60LL),
             (int)((file_duration / TIME_DIMENSION) % 60LL),
             (int)((file_duration % TIME_DIMENSION) / 10LL));
   }
-//  label4->setText(str);
-  printf("%s\n", str);
+
+  printf("\nAvailable signals:\n");
+  printf("ID  LABEL              SAMPLING\n");
 
   skip = 0;
-
   signal_cnt = mainwindow->edfheaderlist[row]->edfsignals;
+  str[0] = 0;
 
   for(i=0; i<signal_cnt; i++)
   {
@@ -676,7 +649,7 @@ void UI_Signalswindow::show_signals(int row)
       }
     }
 
-	snprintf(str, 256, "%-3i ", i + 1);
+	snprintf(str, 256, "%-3i ", i);
 	strcat(str, mainwindow->edfheaderlist[row]->edfparam[i].label);
 	strcat(str, "   ");
 	convert_to_metric_suffix(str + strlen(str),
@@ -685,16 +658,8 @@ void UI_Signalswindow::show_signals(int row)
 	remove_trailing_zeros(str);
 	strcat(str, "Hz");
 
-	printf("%s ", str);
-    //item = new QListWidgetItem;
-    //item->setText(str);
-
-	printf(" (UserRole = %d)\n", i);
-    //item->setData(Qt::UserRole, QVariant(i));
-    //signallist->addItem(item);
+	printf("%s \n", str);
   }
-
-  //SelectAllButtonClicked();
 }
 
 /*

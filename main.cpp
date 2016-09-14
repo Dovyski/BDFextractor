@@ -52,13 +52,9 @@ void usage() {
 	std::cout << "                       Use --show-signals to list all available signals." << std::endl;
 	std::cout << std::endl;
 
-	std::cout << " -g, --show-signals    Show which signals are available in the input file." << std::endl;
-	std::cout << "                       Use this option to identify which signal you want to" << std::endl;
+	std::cout << " -f, --show-info       Show information regarding the file, e.g. available." << std::endl;
+	std::cout << "                       signals. Use this option to identify which signal you want to" << std::endl;
 	std::cout << "                       use with --signal." << std::endl;
-	std::cout << std::endl;
-
-	std::cout << " -f, --show-file-info  Show information regarding the file, e.g. date." << std::endl;
-	std::cout << "                       Calculations are based on signal informed by --signal." << std::endl;
 	std::cout << std::endl;
 
 	std::cout << " -t, --show-hr-stats   Print some statistics regarding HR, e.g. mean HR." << std::endl;
@@ -111,16 +107,15 @@ int main(int argc, const char *argv[])
 	config.export_timestamp = getarg(false, "--export-timestamp");
 	config.export_time		= getarg(false, "--export-time");
 	
-	bool show_signals		= getarg(false, "-g", "--show-signals");
 	bool show_hr_stats		= getarg(false, "-t", "--show-hr-stats");
-	bool show_file_info		= getarg(false, "-f", "--show-file-info");
+	bool show_file_info		= getarg(false, "-f", "--show-info");
 
 	UI_Mainwindow mainwindow;
 	mainwindow.open_new_file(config.input_file.c_str());
 	
 	UI_Signalswindow signalsw(&mainwindow);
 
-	if (show_signals) {
+	if (show_file_info) {
 		signalsw.show_signals(0);
 		exit(0);
 	}
