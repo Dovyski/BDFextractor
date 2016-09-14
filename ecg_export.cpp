@@ -351,7 +351,7 @@ void UI_ECGExport::Export_RR_intervals()
     }
 	*/
 
-	type = 2;
+	type = 4;
 
     if(type == 1)
     {
@@ -361,8 +361,9 @@ void UI_ECGExport::Export_RR_intervals()
       }
     }
 
-	
-    if((type == 2) || (type == 3))
+	int last_time = -1;
+
+    if(type != 1)
     {
       for(i=0; i<beat_cnt; i++)
       {
@@ -402,6 +403,35 @@ void UI_ECGExport::Export_RR_intervals()
         {
           fprintf(outputfile, "%.4f\n", ((double)l_time) / TIME_DIMENSION);
         }
+
+		if (type == 4)
+		{
+			double time = ((double)l_time) / TIME_DIMENSION;
+			int time_int = (int)time;
+
+			// If this is the very first HR info and the time is greater
+			// then zero, it means we are missing info from 0 until the time
+			// of the current HR record. Let's add add entries until we reach
+			// the right time
+			if (i == 0 && time_int != 0) {
+				for (int t = 0; t < time_int; t++) {
+					fprintf(outputfile, "%d %d %d %.0f %s\n", 999, -1, t, 0, "MAHNOB-HCI");
+				}
+			}
+
+			// If the time we have is different from the last one
+			// read, we are dealing with beats in different seconds.
+
+			if (time_int != last_time) {
+				// Output using ground file format: 
+				//		subject_id (int) | timestamp (int) | time_seconds (int) | HR (int) | label (string)
+				// E.g.
+				//		416 1457449529 13 79 other
+				fprintf(outputfile, "%d %d %d %d %s\n", 999, -1, (int)time, (int)(60.0 / beat_interval_list[i]), "MAHNOB-HCI");
+			}
+
+			last_time = (int)time;
+		}
       }
     }
 	

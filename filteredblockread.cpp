@@ -250,17 +250,14 @@ int FilteredBlockReadClass::process_signalcomp(int datarecord_start)
       dig_value += f_tmp;
     }
 
-	//printf("%f  ", current_time);
-
 	int ignore = 0;
-	double min_time = 10;
+	double min_time = 0;
 	long long long_min_time = (long long)(min_time * ((double)TIME_DIMENSION));
 
-	double max_time = 36;
+	double max_time = 99999;
 	long long long_max_time = (long long)(max_time * ((double)TIME_DIMENSION));
 
 	if (long_current_time < long_min_time || long_current_time > long_max_time) {
-		//printf("time: %f, time: %ld, sample: %d, sample_count: %ld\n", current_time, long_current_time, s, sample_count);
 		ignore = 1;
 	}
 
