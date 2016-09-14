@@ -104,6 +104,20 @@ double * FilteredBlockReadClass::init_signalcomp(struct signalcompblock *i_signa
 
   bitvalue = signalcomp->edfhdr->edfparam[signalcomp->edfsignal[0]].bitvalue;
 
+  // Calculate a few useful info
+  long_session_duration = (hdr->datarecords * hdr->long_data_record_duration) / (TIME_DIMENSION / 1000LL);
+  long_time_per_sample = hdr->long_data_record_duration / signalcomp->edfhdr->edfparam[signalcomp->edfsignal[0]].smp_per_record;
+  samples_per_second = signalcomp->edfhdr->edfparam[signalcomp->edfsignal[0]].smp_per_record;
+  time_per_sample = 1.0 / signalcomp->edfhdr->edfparam[signalcomp->edfsignal[0]].smp_per_record;
+
+  printf("long_session_duration = %ld ms\n", long_session_duration);
+  printf("hdr->long_data_record_duration = %ld units\n", hdr->long_data_record_duration);
+  printf("long_data_record_duration = %ld ms\n", hdr->long_data_record_duration / (TIME_DIMENSION / 1000LL));
+  printf("time per sample = %ld units\n", long_time_per_sample);
+  printf("samples/s = %d \n", samples_per_second);
+  printf("time per sample = %f ms\n", time_per_sample);
+  printf("datarecord_cnt = %d\n", datarecord_cnt);
+
   return(processed_samples_buf);
 }
 
@@ -187,7 +201,7 @@ int FilteredBlockReadClass::process_signalcomp(int datarecord_start)
   {
     return(-1);
   }
-
+  
   for(s=0; s<total_samples; s++)
   {
     dig_value = 0.0;
@@ -236,7 +250,26 @@ int FilteredBlockReadClass::process_signalcomp(int datarecord_start)
       dig_value += f_tmp;
     }
 
-    if(!skip_filters)
+	//printf("%f  ", current_time);
+
+	int ignore = 0;
+	double min_time = 10;
+	long long long_min_time = (long long)(min_time * ((double)TIME_DIMENSION));
+
+	double max_time = 36;
+	long long long_max_time = (long long)(max_time * ((double)TIME_DIMENSION));
+
+	if (long_current_time < long_min_time || long_current_time > long_max_time) {
+		//printf("time: %f, time: %ld, sample: %d, sample_count: %ld\n", current_time, long_current_time, s, sample_count);
+		ignore = 1;
+	}
+
+	// Update time counting stuff
+	sample_count++;
+	current_time += time_per_sample;
+	long_current_time += long_time_per_sample;
+
+    if(!skip_filters && !ignore)
     {
       if(signalcomp->spike_filter)
       {

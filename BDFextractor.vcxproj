@@ -159,6 +159,7 @@
     <ClCompile Include="ecg_filter.cpp" />
     <ClCompile Include="filter.cpp" />
     <ClCompile Include="filteredblockread.cpp" />
+    <ClCompile Include="jump_dialog.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="mainwindow_constr.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="filter.h" />
     <ClInclude Include="filteredblockread.h" />
     <ClInclude Include="global.h" />
+    <ClInclude Include="jump_dialog.h" />
     <ClInclude Include="mainwindow.h" />
     <ClInclude Include="ravg_filter.h" />
     <ClInclude Include="signals_dialog.h" />

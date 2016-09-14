@@ -6,6 +6,7 @@
 #include "viewcurve.h"
 #include "ecg_export.h"
 #include "statistics_dialog.h"
+#include "jump_dialog.h"
 
 #define VERSION	"1.0.0"
 
@@ -40,6 +41,9 @@ int main(int argc, const char *argv[])
 
 	ViewCurve viewcurve(&mainwindow);
 	viewcurve.ECGdetectButton();
+
+	//UI_JumpMenuDialog jump(&mainwindow);
+	//jump.jumpbutton_pressed();
 
 	UI_ECGExport ecgexport(&mainwindow);
 	ecgexport.Export_RR_intervals();

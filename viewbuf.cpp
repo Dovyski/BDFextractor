@@ -150,6 +150,8 @@ void UI_Mainwindow::setup_viewbuf()
           signalcomp[i]->edfhdr->prefiltertime = signalcomp[i]->edfhdr->viewtime;
           if(signalcomp[i]->edfhdr->prefiltertime<0) signalcomp[i]->edfhdr->prefiltertime = 0;
         }
+
+		//printf("signalcomp[%d]->edfhdr->prefiltertime = %ld\n", i, signalcomp[i]->edfhdr->prefiltertime);
       }
     }
 
@@ -161,6 +163,8 @@ void UI_Mainwindow::setup_viewbuf()
       else signalcomp[i]->records_in_viewbuf = 0;
 
       signalcomp[i]->viewbufsize = signalcomp[i]->records_in_viewbuf * signalcomp[i]->edfhdr->recordsize;
+
+	  //printf("signalcomp[%d]->records_in_viewbuf = %ld\n", i, signalcomp[i]->records_in_viewbuf);
 
       if(signalcomp[i]->edfhdr->prefiltertime)
       {
@@ -407,7 +411,7 @@ void UI_Mainwindow::setup_viewbuf()
           }
 
           dig_value = run_ecg_filter(dig_value, signalcomp[i]->ecg_filter);
-		  printf("run_ecg_filter() %f\n", dig_value);
+		  //printf("run_ecg_filter() %f\n", dig_value);
         }
 
 		/*

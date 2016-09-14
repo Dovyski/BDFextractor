@@ -3,7 +3,7 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2012, 2013, 2014, 2015, 2016 Teunis van Beelen
+* Copyright (C) 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016 Teunis van Beelen
 *
 * Email: teuniz@gmail.com
 *
@@ -28,66 +28,65 @@
 
 
 
+#ifndef JUMPMENUFORM1_H
+#define JUMPMENUFORM1_H
 
-#ifndef filteredblockread_INCLUDED
-#define filteredblockread_INCLUDED
-
-
-
-#include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
 
 #include "global.h"
-#include "filter.h"
-#include "spike_filter.h"
-#include "ravg_filter.h"
-
-#include "third_party/fidlib/fidlib.h"
+#include "mainwindow.h"
 
 
-class FilteredBlockReadClass
+class UI_Mainwindow;
+
+
+
+class UI_JumpMenuDialog
 {
+public:
+
+  UI_JumpMenuDialog(UI_Mainwindow *parent);
+
+  UI_Mainwindow *mainwindow;
+
 private:
-  FILE *inputfile;
 
-  struct edfhdrblock *hdr;
+/*
+QDialog      *jump_dialog;
 
-  struct signalcompblock *signalcomp;
+QPushButton  *CloseButton,
+             *jumpButton;
 
-  int datarecord_cnt,
-      samples_per_datrec,
-      total_samples,
-      skip_filters;
+QLabel       *label1,
+             *label2,
+             *label3;
 
-  long long sample_count = 0,
-	  long_session_duration,
-	  long_time_per_sample,
-	  long_current_time = 0;
+QTimeEdit    *timeEdit1,
+             *timeEdit2;
 
-  double time_per_sample,
-	  current_time = 0;
+QTime        time1,
+             time2;
 
-  int samples_per_second;
+QSpinBox     *daybox1,
+             *daybox2;
+*/
 
-  char *readbuf;
-
-  double *processed_samples_buf,
-         bitvalue;
-
-
+long long    recording_duration,
+             starttime;
 
 public:
-  double * init_signalcomp(struct signalcompblock *, int, int);
-  int process_signalcomp(int);
-  int samples_in_buf(void);
-  FilteredBlockReadClass();
-  ~FilteredBlockReadClass();
+void jumpbutton_pressed();
+
+private:
+//void absolutetime_changed();
+void offsettime_changed();
+//void absoluteday_changed(int);
+//void offsetday_changed(int);
+
 };
 
-#endif
 
 
-
+#endif // JUMPMENUFORM1_H
 
 
