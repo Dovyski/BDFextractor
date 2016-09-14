@@ -110,13 +110,13 @@ double * FilteredBlockReadClass::init_signalcomp(struct signalcompblock *i_signa
   samples_per_second = signalcomp->edfhdr->edfparam[signalcomp->edfsignal[0]].smp_per_record;
   time_per_sample = 1.0 / signalcomp->edfhdr->edfparam[signalcomp->edfsignal[0]].smp_per_record;
 
-  printf("long_session_duration = %ld ms\n", long_session_duration);
-  printf("hdr->long_data_record_duration = %ld units\n", hdr->long_data_record_duration);
-  printf("long_data_record_duration = %ld ms\n", hdr->long_data_record_duration / (TIME_DIMENSION / 1000LL));
-  printf("time per sample = %ld units\n", long_time_per_sample);
-  printf("samples/s = %d \n", samples_per_second);
-  printf("time per sample = %f ms\n", time_per_sample);
-  printf("datarecord_cnt = %d\n", datarecord_cnt);
+  //printf("long_session_duration = %ld ms\n", long_session_duration);
+  //printf("hdr->long_data_record_duration = %ld units\n", hdr->long_data_record_duration);
+  //printf("long_data_record_duration = %ld ms\n", hdr->long_data_record_duration / (TIME_DIMENSION / 1000LL));
+  //printf("time per sample = %ld units\n", long_time_per_sample);
+  //printf("samples/s = %d \n", samples_per_second);
+  //printf("time per sample = %f ms\n", time_per_sample);
+ // printf("datarecord_cnt = %d\n", datarecord_cnt);
 
   return(processed_samples_buf);
 }

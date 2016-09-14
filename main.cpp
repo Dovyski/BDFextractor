@@ -100,7 +100,7 @@ int main(int argc, const char *argv[])
 	config.label			= getarg("unknown", "-l", "--label");
 	config.input_file		= getarg("Part_1_S_Trial1_emotion.bdf", "--input");
 	config.output_file		= getarg("", "-o", "--output");
-	config.signal			= getarg(0, "-s", "--signal");
+	config.signal			= getarg(-1, "-s", "--signal");
 	config.export_rr		= getarg(false, "--export-rr");
 	config.export_rr_times	= getarg(false, "--export-rr-times");
 	config.export_hr		= getarg(false, "--export-hr");
@@ -120,7 +120,7 @@ int main(int argc, const char *argv[])
 		exit(0);
 	}
 	
-	signalsw.DisplayButtonClicked();
+	signalsw.DisplayButtonClicked(config.signal);
 
 	ViewCurve viewcurve(&mainwindow);
 	viewcurve.ECGdetectButton();
@@ -133,6 +133,5 @@ int main(int argc, const char *argv[])
 		exit(0);
 	}
 
-	getchar();
 	exit(0);
 }

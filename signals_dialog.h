@@ -60,7 +60,7 @@ private:
 public:
   void show_signals(int);
 //  void SelectAllButtonClicked();
-  void DisplayButtonClicked();
+  void DisplayButtonClicked(int signal);
 //  void DisplayCompButtonClicked();
 //  void AddButtonClicked();
 //  void SubtractButtonClicked();

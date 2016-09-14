@@ -179,7 +179,7 @@ void UI_Signalswindow::DisplayCompButtonClicked()
 }
 */
 
-void UI_Signalswindow::DisplayButtonClicked()
+void UI_Signalswindow::DisplayButtonClicked(int signal)
 {
   int i, n, s, old_scomps;
 
@@ -200,7 +200,12 @@ void UI_Signalswindow::DisplayButtonClicked()
  // }
 
   // this is the signal to be added
-  i = 33;
+  i = signal;
+
+  if (i < 0) {
+	  printf("Invalid signal id. Provide a valid signal using --signal, e.g. --signal=33.\n");
+	  exit(3);
+  }
 
   old_scomps = mainwindow->signalcomps;
 
@@ -248,11 +253,12 @@ void UI_Signalswindow::DisplayButtonClicked()
     mainwindow->signalcomps++;
   //}
 
+	// TODO: maybe keep this!
 
-	printf("newsignalcomp->edfhdr->long_data_record_duration = %ld\n", newsignalcomp->edfhdr->long_data_record_duration);
-	printf("newsignalcomp->file_duration = %ld\n", newsignalcomp->file_duration);
-	printf("newsignalcomp->edfhdr->data_record_duration = %ld\n", newsignalcomp->edfhdr->data_record_duration);
-	printf("newsignalcomp->edfhdr->datarecords = %ld\n", newsignalcomp->edfhdr->datarecords);
+	//printf("newsignalcomp->edfhdr->long_data_record_duration = %ld\n", newsignalcomp->edfhdr->long_data_record_duration);
+	//printf("newsignalcomp->file_duration = %ld\n", newsignalcomp->file_duration);
+	//printf("newsignalcomp->edfhdr->data_record_duration = %ld\n", newsignalcomp->edfhdr->data_record_duration);
+	//printf("newsignalcomp->edfhdr->datarecords = %ld\n", newsignalcomp->edfhdr->datarecords);
 
   if((i) && (mainwindow->files_open == 1) && (old_scomps == 0))
   {

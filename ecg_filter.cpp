@@ -48,7 +48,7 @@ struct ecg_filter_settings * create_ecg_filter(double sf, double bitval, int pow
   double d_tmp;
 
   struct ecg_filter_settings *settings;
-  printf("sf = %f, bitval = %f, powerline = %d\n", sf, bitval, powerlinefreq);
+
   if(sf < 99.9)  return(NULL);
 
   if((powerlinefreq != 50) && (powerlinefreq != 60)) return(NULL);

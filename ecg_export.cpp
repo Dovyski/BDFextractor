@@ -185,7 +185,7 @@ void UI_ECGExport::Export_RR_intervals()
 
     datarecords = signalcomp->edfhdr->datarecords;
 
-    printf("Processing file...%d\n", datarecords);
+    //printf("Processing file...%d\n", datarecords);
     //progress.setWindowModality(Qt::WindowModal);
    // progress.setMinimumDuration(200);
 
@@ -227,7 +227,7 @@ void UI_ECGExport::Export_RR_intervals()
 
   beat_interval_list = ecg_filter_get_interval_beatlist(signalcomp->ecg_filter);
 
-  printf("beat_cnt = %d\n", beat_cnt);
+  //printf("beat_cnt = %d\n", beat_cnt);
 
   if(beat_cnt < 4)
   {
@@ -442,7 +442,7 @@ void UI_ECGExport::Export_RR_intervals()
 
   if(!import_as_annots)
   {
-    sprintf(str, "Done. The R-onsets and/or RR-intervals are exported to:\n\n%s", path);
+    sprintf(str, "Done! Data has been exported to: \"%s\"", path);
 	printf(str);
   }
 
@@ -457,16 +457,9 @@ void UI_ECGExport::load_signalcomps(void)
 {
   int i;
 
-  //QListWidgetItem *item;
-
-  //list->clear();
-
   for(i=0; i<mainwindow->signalcomps; i++)
   {
-    //item = new QListWidgetItem;
-    printf("%s, id = %d\n", mainwindow->signalcomp[i]->signallabel, i);
-    //item->setData(Qt::UserRole, QVariant(i));
-    //list->addItem(item);
+    printf(" processing: %s\n", mainwindow->signalcomp[i]->signallabel);
   }
 }
 

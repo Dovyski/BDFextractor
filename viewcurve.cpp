@@ -3489,7 +3489,7 @@ void ViewCurve::ECGdetectButton()
   mainwindow->signalcomp[signal_id]->hasoffsettracking = 1;
   signal_nr = signal_id;
 
-  printf("Handling signal %s\n", mainwindow->signalcomp[signal_id]->signallabel);
+  printf("Input signal: %s\n", mainwindow->signalcomp[signal_id]->signallabel);
 
   //if(mainwindow->signalcomp[signal_nr]->zratio_filter != NULL)
   //{
@@ -3512,7 +3512,7 @@ void ViewCurve::ECGdetectButton()
 	  exit(4);
   }
 
-  printf("Duration: %f \n", newsignalcomp->edfhdr->data_record_duration);
+  //printf("Duration: %f \n", newsignalcomp->edfhdr->data_record_duration);
 
   newsignalcomp->ecg_filter =
     create_ecg_filter(newsignalcomp->edfhdr->edfparam[newsignalcomp->edfsignal[0]].smp_per_record /
