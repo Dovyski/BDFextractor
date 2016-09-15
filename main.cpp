@@ -82,7 +82,7 @@ int main(int argc, const char *argv[])
 	if (help) {
 		copyright();
 		usage();
-		exit(2);
+		exit(0);
 	}
 	
 	config_t config;
@@ -106,6 +106,12 @@ int main(int argc, const char *argv[])
 		config.export_hr = true;
 		config.export_timestamp = true;
 		config.export_time = true;
+	}
+
+	// Check if the user told the program to export HR and RR at the same time.
+	if (config.export_rr && config.export_hr) {
+		printf("It is not possible to export HR and RR data at the same time.");
+		exit(1);
 	}
 
 	UI_Mainwindow mainwindow;
