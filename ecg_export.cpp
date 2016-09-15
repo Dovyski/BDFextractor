@@ -323,35 +323,26 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
   else
   {
   */
-    strcpy(path, config->output_file.c_str());
 
-    //if(mainwindow->recent_savedir[0]!=0)
-    //{
-    //  strcpy(path, mainwindow->recent_savedir);
-    //  strcat(path, "/");
-    //}
-    //len = strlen(path);
-    //get_filename_from_path(path + len, signalcomp->edfhdr->filename, MAX_PATH_LENGTH - len);
-    //remove_extension_from_filename(path);
-    //strcat(path, "_RR_interval.txt");
+	if (config->output_file == "") {
+		// No ouput file. Print things to stdout
+		outputfile = stdout;
 
-    //strcpy(path, QFileDialog::getSaveFileName(0, "Export RR-interval to ASCII", QString::fromLocal8Bit(path), "Text files (*.txt *.TXT)").toLocal8Bit().data());
+	} else {
+		strcpy(path, config->output_file.c_str());
 
-    if(!strcmp(path, ""))
-    {
-	  printf("Invalid output file: \"%s\"\n", path);
-	  exit(5);
-      return;
-    }
+		if (!strcmp(path, "")) {
+			printf("Invalid output file: \"%s\"\n", path);
+			exit(5);
+		}
 
-    //get_directory_from_path(mainwindow->recent_savedir, path, MAX_PATH_LENGTH);
-	
-    outputfile = fopeno(path, "wb");
-    if(outputfile==NULL)
-    {
-      printf("Unable to open output file for writing.");
-	  exit(5);
-    }
+		outputfile = fopeno(path, "wb");
+
+		if (outputfile == NULL) {
+			printf("Unable to open output file for writing.");
+			exit(5);
+		}
+	}
 
     //if(radioButton1->isChecked() == true)
    // {
@@ -452,15 +443,13 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
       }
     }
 	
-    fclose(outputfile);
+	if (outputfile != stdout) {
+		fclose(outputfile);
+		printf("Done! Data has been extracted to: \"%s\"", path);
+	}
   //}
 
   //myobjectDialog->close();
-
-  if(!import_as_annots)
-  {
-    printf("Done! Data has been extracted to: \"%s\"", path);
-  }
 
   // Keep the buffer in case somebody else wants to use it.
   //reset_ecg_filter(signalcomp->ecg_filter);

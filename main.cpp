@@ -30,7 +30,8 @@ void usage() {
 	std::cout << "                       int the output." << std::endl;
 	std::cout << std::endl;
 
-	std::cout << " -o, --output          Path to the output file." << std::endl;
+	std::cout << " -o, --output          Path to the output file. If nothing is specified" << std::endl;
+	std::cout << "                       exported data is printed to stdout." << std::endl;
 	std::cout << std::endl;
 
 	std::cout << " -s, --signal          Id of the signal to be used in all calculations." << std::endl;
@@ -117,12 +118,6 @@ int main(int argc, const char *argv[])
 		exit(0);
 	}
 
-	// User wants to export data but no output file was provided?
-	if ((config.export_hr || config.export_rr) && config.output_file == "") {
-		printf("Please provide an output file using --output in order to export the data.");
-		exit(1);
-	}
-	
 	signalsw.DisplayButtonClicked(config.signal);
 
 	ViewCurve viewcurve(&mainwindow);
