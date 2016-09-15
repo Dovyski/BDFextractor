@@ -25,9 +25,6 @@
 ***************************************************************************
 */
 
-
-
-
 #ifndef ECGEXPORTCLASS_H
 #define ECGEXPORTCLASS_H
 
@@ -39,8 +36,6 @@
 #include "mainwindow.h"
 #include "viewcurve.h"
 #include "utils.h"
-//#include "filteredblockread.h"
-//#include "edf_annot_list.h"
 
 class UI_Mainwindow;
 class ViewCurve;
@@ -54,11 +49,8 @@ public:
 
 private:
 	void output_hr_entry(FILE * file, config_t * config, int subject, long long timestamp, int time, int hr, const char * label);
+	void output_rr_entry(FILE *file, config_t *config, int subject, long long timestamp, double time, double rr, const char *label);
 	void load_signalcomps(void);
 };
 
 #endif
-
-
-
-

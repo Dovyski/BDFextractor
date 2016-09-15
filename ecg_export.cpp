@@ -110,33 +110,54 @@ void UI_ECGExport::output_hr_entry(FILE *file, config_t *config, int subject, lo
 	fprintf(file, "%d %s\n", hr, label);
 }
 
+void UI_ECGExport::output_rr_entry(FILE *file, config_t *config, int subject, long long timestamp, double time, double rr, const char *label) {
+	// Output using ground file format: 
+	//		subject_id (int) | timestamp (int) | time_seconds (double) | RR (double) | label (string)
+	// E.g.
+	//		416 1457449529 13.32 0.720 other
+
+	fprintf(file, "%d ", config->subject_id);
+
+	if (config->export_timestamp) {
+		fprintf(file, "%ld ", timestamp);
+	}
+
+	if (config->export_time) {
+		fprintf(file, "%.4f ", time);
+	}
+
+	fprintf(file, "%.4f %s\n", rr, label);
+}
+
 void UI_ECGExport::Export_RR_intervals(config_t *config)
 {
-  int i,
-      len,
-      signal_nr,
-      type=-1,
-      beat_cnt,
-      samples_cnt,
-      progress_steps,
-      datarecords,
-      whole_recording=0,
-      import_as_annots=0,
-      filenum=0;
+	int i,
+		len,
+		signal_nr,
+		type = -1,
+		beat_cnt,
+		samples_cnt,
+		progress_steps,
+		datarecords,
+		whole_recording = 0,
+		import_as_annots = 0,
+		filenum = 0,
+		time_int;
 
-  char path[MAX_PATH_LENGTH],
-       str[2048];
+	char path[MAX_PATH_LENGTH],
+		 str[2048];
 
-  double *beat_interval_list,
-         *buf;
+	double *beat_interval_list,
+		   *buf,
+		   time;
 
-  long long *beat_onset_list,
-            datrecs,
-            smpls_left,
-            l_time=0LL;
+	long long *beat_onset_list,
+			  datrecs,
+			  smpls_left,
+			  l_time = 0LL,
+			  timestamp;
 
   struct signalcompblock *signalcomp;
-
 
   FILE *outputfile;
 
@@ -361,65 +382,45 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
     }
 	*/
 
-	type = 4;
+	//type = config->export_hr ? 4 : 2;
 
-    if(type == 1)
-    {
-      for(i=0; i<beat_cnt; i++)
-      {
-        fprintf(outputfile, "%.4f\n", beat_interval_list[i]);
-      }
-    }
+    //if(type == 1)
+    //{
+    //  for(i=0; i<beat_cnt; i++)
+    //  {
+    //    fprintf(outputfile, "%.4f\n", beat_interval_list[i]);
+    //  }
+    //}
 
 	int last_time = -1;
+    
+    for(i=0; i<beat_cnt; i++) {
+		l_time = whole_recording ? 0LL : signalcomp->edfhdr->viewtime;
 
-    if(type != 1)
-    {
-      for(i=0; i<beat_cnt; i++)
-      {
-        if(whole_recording)
-        {
-          l_time = 0LL;
-        }
-        else
-        {
-          l_time = signalcomp->edfhdr->viewtime;
-        }
+		if(l_time < 0LL) {
+			l_time = 0LL;
+		}
 
-        if(l_time < 0LL)
-        {
-          l_time = 0LL;
-        }
+		datrecs = beat_onset_list[i] / signalcomp->edfhdr->edfparam[signalcomp->edfsignal[0]].smp_per_record;
+		smpls_left = beat_onset_list[i] % signalcomp->edfhdr->edfparam[signalcomp->edfsignal[0]].smp_per_record;
 
-        datrecs = beat_onset_list[i] / signalcomp->edfhdr->edfparam[signalcomp->edfsignal[0]].smp_per_record;
+		l_time += (datrecs * signalcomp->edfhdr->long_data_record_duration);
+		l_time += ((smpls_left * signalcomp->edfhdr->long_data_record_duration) / signalcomp->edfhdr->edfparam[signalcomp->edfsignal[0]].smp_per_record);
 
-        smpls_left = beat_onset_list[i] % signalcomp->edfhdr->edfparam[signalcomp->edfsignal[0]].smp_per_record;
+		if(!whole_recording) {
+			l_time += (mainwindow->edfheaderlist[mainwindow->sel_viewtime]->viewtime - signalcomp->edfhdr->viewtime);
+		}
 
-        l_time += (datrecs * signalcomp->edfhdr->long_data_record_duration);
+		timestamp = mainwindow->edfheaderlist[mainwindow->sel_viewtime]->utc_starttime;
+		time = ((double)l_time) / TIME_DIMENSION;
+		time_int = (int)time;
 
-        l_time += ((smpls_left * signalcomp->edfhdr->long_data_record_duration) / signalcomp->edfhdr->edfparam[signalcomp->edfsignal[0]].smp_per_record);
+		if(config->export_rr) {
+			// We are exporting RR info.
+			output_rr_entry(outputfile, config, config->subject_id, timestamp + time_int, time, beat_interval_list[i], config->label.c_str());
 
-        if(!whole_recording)
-        {
-          l_time += (mainwindow->edfheaderlist[mainwindow->sel_viewtime]->viewtime - signalcomp->edfhdr->viewtime);
-        }
-
-        if(type == 2)
-        {
-
-          fprintf(outputfile, "%.4f\t%.4f\n", ((double)l_time) / TIME_DIMENSION, beat_interval_list[i]);
-        }
-
-        if(type == 3)
-        {
-          fprintf(outputfile, "%.4f\n", ((double)l_time) / TIME_DIMENSION);
-        }
-
-		if (type == 4)
-		{
-			double time = ((double)l_time) / TIME_DIMENSION;
-			int time_int = (int)time;
-			long long timestamp = mainwindow->edfheaderlist[mainwindow->sel_viewtime]->utc_starttime;
+		} else if (config->export_hr) {
+			// We are exporting HR info.
 
 			// If this is the very first HR info and the time is greater
 			// then zero, it means we are missing info from 0 until the time
@@ -440,7 +441,6 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
 
 			last_time = (int)time;
 		}
-      }
     }
 	
 	if (outputfile != stdout) {
