@@ -91,6 +91,25 @@ UI_ECGExport::UI_ECGExport(UI_Mainwindow *parent)
   //myobjectDialog->exec();
 }
 
+void UI_ECGExport::output_hr_entry(FILE *file, config_t *config, int subject, long long timestamp, int time, int hr, const char *label) {
+	// Output using ground file format: 
+	//		subject_id (int) | timestamp (int) | time_seconds (int) | HR (int) | label (string)
+	// E.g.
+	//		416 1457449529 13 79 other
+
+	fprintf(file, "%d ", config->subject_id);
+	
+	if (config->export_timestamp) {
+		fprintf(file, "%ld ", timestamp);
+	}
+
+	if (config->export_time) {
+		fprintf(file, "%d ", time);
+	}
+
+	fprintf(file, "%d %s\n", hr, label);
+}
+
 void UI_ECGExport::Export_RR_intervals(config_t *config)
 {
   int i,
@@ -396,6 +415,7 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
 
         if(type == 2)
         {
+
           fprintf(outputfile, "%.4f\t%.4f\n", ((double)l_time) / TIME_DIMENSION, beat_interval_list[i]);
         }
 
@@ -416,7 +436,7 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
 			// the right time
 			if (i == 0 && time_int != 0) {
 				for (int t = 0; t < time_int; t++) {
-					fprintf(outputfile, "%d %ld %d %.0f %s\n", config->subject_id, timestamp + t, t, 0, config->label.c_str());
+					output_hr_entry(outputfile, config, config->subject_id, timestamp + t, t, 0, config->label.c_str());
 				}
 			}
 
@@ -424,11 +444,7 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
 			// read, we are dealing with beats in different seconds.
 
 			if (time_int != last_time) {
-				// Output using ground file format: 
-				//		subject_id (int) | timestamp (int) | time_seconds (int) | HR (int) | label (string)
-				// E.g.
-				//		416 1457449529 13 79 other
-				fprintf(outputfile, "%d %ld %d %d %s\n", config->subject_id, timestamp + time_int, time_int, (int)(60.0 / beat_interval_list[i]), config->label.c_str());
+				output_hr_entry(outputfile, config, config->subject_id, timestamp + time_int, time_int, (int)(60.0 / beat_interval_list[i]), config->label.c_str());
 			}
 
 			last_time = (int)time;

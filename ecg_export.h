@@ -49,21 +49,13 @@ class UI_ECGExport
 {
 public:
   UI_ECGExport(UI_Mainwindow *parent);
-
   UI_Mainwindow *mainwindow;
-
+  void Export_RR_intervals(config_t *config);
 
 private:
-
-void load_signalcomps(void);
-
-public:
-
-void Export_RR_intervals(config_t *config);
-
+	void output_hr_entry(FILE * file, config_t * config, int subject, long long timestamp, int time, int hr, const char * label);
+	void load_signalcomps(void);
 };
-
-
 
 #endif
 

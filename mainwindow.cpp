@@ -1107,7 +1107,7 @@ void UI_Mainwindow::open_new_file(const char *path)
        &&(strcmp(path + (len - 4), ".bdf"))
        &&(strcmp(path + (len - 4), ".BDF")))
     {
-      printf("File has an unknown extension:  \"%s\"", path + (len - 4));
+      printf("Input file has an unknown extension: \"%s\"", path + (len - 4));
       exit(2);
     }
 
@@ -1115,7 +1115,7 @@ void UI_Mainwindow::open_new_file(const char *path)
 
 	if(newfile==NULL)
     {
-      printf("Cannot open file: \"%s\"", path);
+      printf("Cannot open input file: \"%s\"", path);
       exit(2);
     }
 
@@ -1144,16 +1144,12 @@ void UI_Mainwindow::open_new_file(const char *path)
     {
       if(edfhdr->edf)
       {
-        printf("EDFbrowser can not show EDF+D (discontiguous) files.\n"
-                                                                  "Convert this file to EDF+C first. You can find this converter\n"
-                                                                  "in the Tools menu (EDF+D to EDF+C converter).");
+        printf("Can not show EDF+D (discontiguous) files. Sorry.\n");
       }
 
       if(edfhdr->bdf)
       {
-        printf("EDFbrowser can not show BDF+D (discontiguous) files.\n"
-                                                                  "Convert this file to BDF+C first. You can find this converter\n"
-                                                                  "in the Tools menu (EDF+D to EDF+C converter).");
+        printf("Can not show BDF+D (discontiguous) files. Sorry.\n");
       }
 
       free(edfhdr->edfparam);

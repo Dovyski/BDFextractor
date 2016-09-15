@@ -54,6 +54,11 @@ void usage() {
 	std::cout << "                       Calculations are based on signal informed by --signal." << std::endl;
 	std::cout << std::endl;
 
+	std::cout << " --export-hr-all       Extract HR values from input file/signal, including" << std::endl;
+	std::cout << "                       time and timestamp. Calculations are based on signal" << std::endl;
+	std::cout << "                       informed by --signal." << std::endl;
+	std::cout << std::endl;
+
 	std::cout << " --export-hr           Extract HR values from input file/signal." << std::endl;
 	std::cout << "                       Calculations are based on signal informed by --signal." << std::endl;
 	std::cout << std::endl;
@@ -95,6 +100,13 @@ int main(int argc, const char *argv[])
 	bool show_hr_stats		= getarg(false, "-t", "--show-hr-stats");
 	bool show_file_info		= getarg(false, "-f", "--show-info");
 
+	// Were we told to export everything regarding HR?
+	if (getarg(false, "--export-hr-all")) {
+		config.export_hr = true;
+		config.export_timestamp = true;
+		config.export_time = true;
+	}
+
 	UI_Mainwindow mainwindow;
 	mainwindow.open_new_file(config.input_file.c_str());
 	
@@ -103,6 +115,12 @@ int main(int argc, const char *argv[])
 	if (show_file_info) {
 		signalsw.show_signals(0);
 		exit(0);
+	}
+
+	// User wants to export data but no output file was provided?
+	if ((config.export_hr || config.export_rr) && config.output_file == "") {
+		printf("Please provide an output file using --output in order to export the data.");
+		exit(1);
 	}
 	
 	signalsw.DisplayButtonClicked(config.signal);
