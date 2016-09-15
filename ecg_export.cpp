@@ -223,40 +223,14 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
 
     datarecords = signalcomp->edfhdr->datarecords;
 
-    //printf("Processing file...%d\n", datarecords);
-    //progress.setWindowModality(Qt::WindowModal);
-   // progress.setMinimumDuration(200);
-
-    progress_steps = datarecords / 100;
-    if(progress_steps < 1)
-    {
-      progress_steps = 1;
-    }
-
     for(i=0; i<signalcomp->edfhdr->datarecords; i++)
     {
-      if(!(i%progress_steps))
-      {
-        //progress.setValue(i);
-		  printf("Progress %f \r", i / signalcomp->edfhdr->datarecords);
-
-        //qApp->processEvents();
-
-        //if(progress.wasCanceled() == true)
-        //{
-        //  return;
-        //}
-      }
-
       if(blockrd.process_signalcomp(i) != 0)
       {
-        //progress.reset();
         printf("\nError while reading file.\n");
 		exit(8);
       }
     }
-
-    //progress.reset();
   }
 
   beat_cnt = ecg_filter_get_beat_cnt(signalcomp->ecg_filter);

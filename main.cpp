@@ -82,7 +82,7 @@ int main(int argc, const char *argv[])
 	if (help) {
 		copyright();
 		usage();
-		exit(0);
+		exit(1);
 	}
 	
 	config_t config;
