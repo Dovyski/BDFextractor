@@ -91,9 +91,9 @@ UI_ECGExport::UI_ECGExport(UI_Mainwindow *parent)
   //myobjectDialog->exec();
 }
 
-void UI_ECGExport::output_entry(FILE * file, config_t * config, int subject, long long timestamp, double time) {
+void UI_ECGExport::output_entry(FILE * file, config_t * config, int subject, long long timestamp, double time, double value, const char *label) {
 	// Output using ground file format: 
-	//		subject_id (int) | timestamp (int) | time_seconds (int) | ...
+	//		subject_id (int) | timestamp (int) | time_seconds (int) | HR (double) or RR | label (string)
 
 	fprintf(file, "%d ", config->subject_id);
 
@@ -104,26 +104,8 @@ void UI_ECGExport::output_entry(FILE * file, config_t * config, int subject, lon
 	if (config->export_time) {
 		fprintf(file, "%.4f ", time);
 	}
-}
 
-void UI_ECGExport::output_hr_entry(FILE *file, config_t *config, int subject, long long timestamp, double time, int hr, const char *label) {
-	// Output using ground file format: 
-	//		subject_id (int) | timestamp (int) | time_seconds (int) | HR (int) | label (string)
-	// E.g.
-	//		416 1457449529 13 79 other
-
-	output_entry(file, config, subject, timestamp, time);
-	fprintf(file, "%d %s\n", hr, label);
-}
-
-void UI_ECGExport::output_rr_entry(FILE *file, config_t *config, int subject, long long timestamp, double time, double rr, const char *label) {
-	// Output using ground file format: 
-	//		subject_id (int) | timestamp (int) | time_seconds (double) | RR (double) | label (string)
-	// E.g.
-	//		416 1457449529 13.32 0.720 other
-
-	output_entry(file, config, subject, timestamp, time);
-	fprintf(file, "%.4f %s\n", rr, label);
+	fprintf(file, ",%.4f, %s\n", value, label);
 }
 
 void UI_ECGExport::Export_RR_intervals(config_t *config)
@@ -366,7 +348,7 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
 
 		if(config->export_rr) {
 			// We are exporting RR info.
-			output_rr_entry(outputfile, config, config->subject_id, timestamp + time_int, time, beat_interval_list[i], config->label.c_str());
+			output_entry(outputfile, config, config->subject_id, timestamp + time_int, time, beat_interval_list[i], config->label.c_str());
 
 		} else if (config->export_hr) {
 			// We are exporting HR info.
@@ -377,14 +359,14 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
 			// the right time
 			if (i == 0 && time_int != 0) {
 				for (int t = 0; t < time_int; t++) {
-					output_hr_entry(outputfile, config, config->subject_id, timestamp + t, t, 0, config->label.c_str());
+					output_entry(outputfile, config, config->subject_id, timestamp + t, t, 0, config->label.c_str());
 				}
 			}
 
 			// If the time we have is different from the last one
 			// read, we are dealing with beats in different seconds.
 
-			output_hr_entry(outputfile, config, config->subject_id, timestamp + time_int, time, (int)(60.0 / beat_interval_list[i]), config->label.c_str());
+			output_entry(outputfile, config, config->subject_id, timestamp + time_int, time, 60.0 / beat_interval_list[i], config->label.c_str());
 		}
     }
 	
