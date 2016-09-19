@@ -105,7 +105,7 @@ void UI_ECGExport::output_entry(FILE * file, config_t * config, int subject, lon
 		fprintf(file, "%.4f ", time);
 	}
 
-	fprintf(file, ",%.4f, %s\n", value, label);
+	fprintf(file, "%.4f %s\n", value, label);
 }
 
 void UI_ECGExport::Export_RR_intervals(config_t *config)
