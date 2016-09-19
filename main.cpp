@@ -19,28 +19,28 @@ void usage() {
 	std::cout << "Usage:\n  BDFextractor.exe [options]" << std::endl << std::endl;
 	std::cout << "Options:" << std::endl;
 
-	std::cout << " --input               Path to the EDF/BDF file to be analyzed." << std::endl;
+	std::cout << " --input=<val>         Path to the EDF/BDF file to be analyzed." << std::endl;
 	std::cout << std::endl;
 
-	std::cout << " -b, --subject         An integer used as the subject id in" << std::endl;
+	std::cout << " --subject=<val>       An integer used as the subject id in" << std::endl;
 	std::cout << "                       the output." << std::endl;
 	std::cout << std::endl;
 
-	std::cout << " -l, --label           A string used as the label for each entry" << std::endl;
+	std::cout << " --label=<val>         A string used as the label for each entry" << std::endl;
 	std::cout << "                       int the output." << std::endl;
 	std::cout << std::endl;
 
-	std::cout << " -o, --output          Path to the output file. If nothing is specified" << std::endl;
+	std::cout << " --output=<val>        Path to the output file. If nothing is specified" << std::endl;
 	std::cout << "                       exported data is printed to stdout." << std::endl;
 	std::cout << std::endl;
 
-	std::cout << " -s, --signal          Id of the signal to be used in all calculations." << std::endl;
+	std::cout << " --signal=<val>         Id of the signal to be used in all calculations." << std::endl;
 	std::cout << "                       Use --show-signals to list all available signals." << std::endl;
 	std::cout << std::endl;
 
 	std::cout << " -f, --show-info       Show information regarding the file, e.g. available." << std::endl;
-	std::cout << "                       signals. Use this option to identify which signal you want to" << std::endl;
-	std::cout << "                       use with --signal." << std::endl;
+	std::cout << "                       signals. Use this option to identify which signal you" << std::endl;
+	std::cout << "                       want to use with --signal." << std::endl;
 	std::cout << std::endl;
 
 	std::cout << " -t, --show-hr-stats   Print some statistics regarding HR, e.g. mean HR." << std::endl;
@@ -87,11 +87,11 @@ int main(int argc, const char *argv[])
 	
 	config_t config;
 
-	config.subject_id		= getarg(-1, "-b", "--subject");
+	config.subject_id		= getarg(-1, "--subject");
 	config.label			= getarg("unknown", "--label");
 	config.input_file		= getarg("", "--input");
-	config.output_file		= getarg("", "-o", "--output");
-	config.signal			= getarg(-1, "-s", "--signal");
+	config.output_file		= getarg("", "--output");
+	config.signal			= getarg(-1, "--signal");
 	config.export_rr		= getarg(false, "--export-rr");
 	config.export_rr_times	= getarg(false, "--export-rr-times");
 	config.export_hr		= getarg(false, "--export-hr");
