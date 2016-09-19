@@ -48,7 +48,8 @@ public:
   void Export_RR_intervals(config_t *config);
 
 private:
-	void output_hr_entry(FILE * file, config_t * config, int subject, long long timestamp, int time, int hr, const char * label);
+	void output_entry(FILE * file, config_t * config, int subject, long long timestamp, double time);
+	void output_hr_entry(FILE * file, config_t * config, int subject, long long timestamp, double time, int hr, const char * label);
 	void output_rr_entry(FILE *file, config_t *config, int subject, long long timestamp, double time, double rr, const char *label);
 	void load_signalcomps(void);
 };

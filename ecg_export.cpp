@@ -91,30 +91,9 @@ UI_ECGExport::UI_ECGExport(UI_Mainwindow *parent)
   //myobjectDialog->exec();
 }
 
-void UI_ECGExport::output_hr_entry(FILE *file, config_t *config, int subject, long long timestamp, int time, int hr, const char *label) {
+void UI_ECGExport::output_entry(FILE * file, config_t * config, int subject, long long timestamp, double time) {
 	// Output using ground file format: 
-	//		subject_id (int) | timestamp (int) | time_seconds (int) | HR (int) | label (string)
-	// E.g.
-	//		416 1457449529 13 79 other
-
-	fprintf(file, "%d ", config->subject_id);
-	
-	if (config->export_timestamp) {
-		fprintf(file, "%ld ", timestamp);
-	}
-
-	if (config->export_time) {
-		fprintf(file, "%d ", time);
-	}
-
-	fprintf(file, "%d %s\n", hr, label);
-}
-
-void UI_ECGExport::output_rr_entry(FILE *file, config_t *config, int subject, long long timestamp, double time, double rr, const char *label) {
-	// Output using ground file format: 
-	//		subject_id (int) | timestamp (int) | time_seconds (double) | RR (double) | label (string)
-	// E.g.
-	//		416 1457449529 13.32 0.720 other
+	//		subject_id (int) | timestamp (int) | time_seconds (int) | ...
 
 	fprintf(file, "%d ", config->subject_id);
 
@@ -125,7 +104,25 @@ void UI_ECGExport::output_rr_entry(FILE *file, config_t *config, int subject, lo
 	if (config->export_time) {
 		fprintf(file, "%.4f ", time);
 	}
+}
 
+void UI_ECGExport::output_hr_entry(FILE *file, config_t *config, int subject, long long timestamp, double time, int hr, const char *label) {
+	// Output using ground file format: 
+	//		subject_id (int) | timestamp (int) | time_seconds (int) | HR (int) | label (string)
+	// E.g.
+	//		416 1457449529 13 79 other
+
+	output_entry(file, config, subject, timestamp, time);
+	fprintf(file, "%d %s\n", hr, label);
+}
+
+void UI_ECGExport::output_rr_entry(FILE *file, config_t *config, int subject, long long timestamp, double time, double rr, const char *label) {
+	// Output using ground file format: 
+	//		subject_id (int) | timestamp (int) | time_seconds (double) | RR (double) | label (string)
+	// E.g.
+	//		416 1457449529 13.32 0.720 other
+
+	output_entry(file, config, subject, timestamp, time);
 	fprintf(file, "%.4f %s\n", rr, label);
 }
 
@@ -161,21 +158,6 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
 
   FILE *outputfile;
 
-  //QList<QListWidgetItem *> selectedlist;
-
-  //struct annotationblock *annotation;
-
-
-  //selectedlist = list->selectedItems();
-
-  //if(selectedlist.size() < 1)
-  //{
-  //  printf("Select a signal first.");
-  //  messagewindow.exec();
-  //  return;
- // }
-
- // signal_nr = selectedlist.at(0)->data(Qt::UserRole).toInt();
   signal_nr = 1;
 
   if((signal_nr < 0) || (signal_nr >= mainwindow->signalcomps))
@@ -192,11 +174,6 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
 	exit(5);
   }
 
-  //if(checkBox2->checkState() == Qt::Checked)
-  //{
-  //  import_as_annots = 1;
-  //}
-  
   //if(checkBox1->checkState() == Qt::Checked)
   {
     whole_recording = 1;
@@ -366,8 +343,6 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
     //  }
     //}
 
-	int last_time = -1;
-    
     for(i=0; i<beat_cnt; i++) {
 		l_time = whole_recording ? 0LL : signalcomp->edfhdr->viewtime;
 
@@ -409,11 +384,7 @@ void UI_ECGExport::Export_RR_intervals(config_t *config)
 			// If the time we have is different from the last one
 			// read, we are dealing with beats in different seconds.
 
-			if (time_int != last_time) {
-				output_hr_entry(outputfile, config, config->subject_id, timestamp + time_int, time_int, (int)(60.0 / beat_interval_list[i]), config->label.c_str());
-			}
-
-			last_time = (int)time;
+			output_hr_entry(outputfile, config, config->subject_id, timestamp + time_int, time, (int)(60.0 / beat_interval_list[i]), config->label.c_str());
 		}
     }
 	
