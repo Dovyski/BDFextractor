@@ -655,7 +655,7 @@ void UI_Signalswindow::show_signals(int row)
       }
     }
 
-	snprintf(str, 256, "%-3i ", i);
+	snprintf(str, 256, "%-3i ", i + 1);
 	strcat(str, mainwindow->edfheaderlist[row]->edfparam[i].label);
 	strcat(str, "   ");
 	convert_to_metric_suffix(str + strlen(str),

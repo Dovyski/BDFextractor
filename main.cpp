@@ -124,7 +124,12 @@ int main(int argc, const char *argv[])
 		exit(0);
 	}
 
-	signalsw.DisplayButtonClicked(config.signal);
+	if (config.signal <= 0) {
+		std::cout << "Invalid signal id: " << config.signal << std::endl;
+		exit(2);
+	}
+
+	signalsw.DisplayButtonClicked(config.signal - 1);
 
 	ViewCurve viewcurve(&mainwindow);
 	viewcurve.ECGdetectButton();
